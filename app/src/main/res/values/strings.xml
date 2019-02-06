@@ -2,8 +2,12 @@
     <string name="app_name">Medicines</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Your medicines</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="today">Today</string>
+    <string name="all">All</string>
+    <string name="pharmacy">Pharmacy</string>
+    <string name="communicate">Communicate</string>
+    <string name="send">Send</string>
+    <string name="here_will_be_list_of_medicines">Here will be list of medicines.</string>
 </resources>
