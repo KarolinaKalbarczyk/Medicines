@@ -10,4 +10,17 @@
     <string name="communicate">Communicate</string>
     <string name="send">Send</string>
     <string name="here_will_be_list_of_medicines">Here will be list of medicines.</string>
+    <string name="stock">Stock</string>
+    <string name="dose">Dose</string>
+    <string name="how_many_times_a_day">How many times a day?</string>
+    <string name="remind_me">Remind me</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="how_many_medicines_do_you_have">How many medicines do you have?</string>
+    <string name="editor_activity_title_new_medicine">Add new medicine</string>
+    <string name="editor_activity_title_edit_medicine">Edit a medicine</string>
+    <string name="name_error">You must put the name of medicine!</string>
+    <string name="quantity_error">You must put the quantity of medicine!</string>
+    <string name="one_dose_error">You must put one dose!</string>
+    <string name="times_error">You must put how many times a day!</string>
 </resources>

@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void email(View view){
+    public void email(){
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:myAddress@gmail.com"));
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        // email();       // złe wywołanie?
+         email();
 
         }
 
