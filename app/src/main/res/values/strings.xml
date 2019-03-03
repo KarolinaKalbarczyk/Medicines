@@ -23,4 +23,5 @@
     <string name="quantity_error">You must put the quantity of medicine!</string>
     <string name="one_dose_error">You must put one dose!</string>
     <string name="times_error">You must put how many times a day!</string>
+    <string name="the_name_of_medicine">The name of medicine</string>
 </resources>

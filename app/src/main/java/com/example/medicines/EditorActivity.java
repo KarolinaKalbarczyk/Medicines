@@ -16,8 +16,10 @@
 package com.example.medicines;
 
 import android.app.LoaderManager;
+import android.arch.persistence.room.Room;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +32,14 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.example.medicines.databinding.ActivityEditorBinding;
+
+import static android.arch.persistence.room.Room.databaseBuilder;
+
+
 public class EditorActivity extends AppCompatActivity {
+
+    private MedicineView medicineView ;
 
     private static final int EXISTING_MEDICINE_LOADER = 0;
 
@@ -44,12 +53,6 @@ public class EditorActivity extends AppCompatActivity {
 
     private EditText mTimesEditText;
 
-    private Button mDoseButton;
-
-    private Button mStockButton;
-
-    private SeekBar mSeekBar;
-
     private Image image;
 
     private boolean mMedicineHasChanged = false;
@@ -62,10 +65,24 @@ public class EditorActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
+        //setContentView(R.layout.activity_editor);
+
+        AppDatabase medicine = databaseBuilder(getApplicationContext(), AppDatabase.class, "Medicine").build();
+
+        ActivityEditorBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
+
+        medicineView = new MedicineView();
+        medicineView.setName("Vit. C");
+        medicineView.setTimes(1);
+        medicineView.setOne_dose(1);
+        medicineView.setQuantity(20);
+        binding.setMedicineView(medicineView);
+
+
 
         Intent intent = getIntent();
         mCurrentMedicineUri = intent.getData();
@@ -84,9 +101,6 @@ public class EditorActivity extends AppCompatActivity {
         mOneDoseEditText = (EditText) findViewById(R.id.oneDose);
         mQuantityEditText = (EditText) findViewById(R.id.quantity);
         mTimesEditText = (EditText) findViewById(R.id.times);
-        mDoseButton = (Button) findViewById(R.id.dose);
-        mStockButton = (Button) findViewById(R.id.stock);
-        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
 
 
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -114,7 +128,7 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        values.put(MedicineContract.MedicineEntry.COLUMN_NAME, nameString);
+        values.put(loadAllByName(), nameString);
 
         if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(this, getString(R.string.quantity_error),
@@ -154,7 +168,5 @@ public class EditorActivity extends AppCompatActivity {
             Toast.makeText(this, "You must input a valid number", Toast.LENGTH_SHORT).show();
             return;
         }
-
     }
-
 }
