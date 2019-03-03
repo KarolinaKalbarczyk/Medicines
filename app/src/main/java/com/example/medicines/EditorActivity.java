@@ -15,21 +15,23 @@
  */
 package com.example.medicines;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
-import android.arch.persistence.room.Room;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
@@ -168,5 +170,53 @@ public class EditorActivity extends AppCompatActivity {
             Toast.makeText(this, "You must input a valid number", Toast.LENGTH_SHORT).show();
             return;
         }
+    }
+
+
+    // menu
+
+        @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mCurrentMedicineUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveMedicine();
+                finish();
+                return true;
+            case R.id.action_delete:
+                //showDeleteConfirmationDialog();
+                return true;
+            case android.R.id.home:
+                if (!mMedicineHasChanged) {
+                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    return true;
+                }
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                            }
+                        };
+
+//                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

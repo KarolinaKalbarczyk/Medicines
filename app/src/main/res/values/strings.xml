@@ -24,4 +24,8 @@
     <string name="one_dose_error">You must put one dose!</string>
     <string name="times_error">You must put how many times a day!</string>
     <string name="the_name_of_medicine">The name of medicine</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="editor_delete_medicine_failed">Error with deleting medicine</string>
+    <string name="editor_delete_medicine_successful">Medicine deleted</string>
 </resources>
