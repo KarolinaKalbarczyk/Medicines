@@ -38,4 +38,5 @@ public class MedicineView {
     public void setOne_dose(int one_dose) {
         this.one_dose = one_dose;
     }
+
 }

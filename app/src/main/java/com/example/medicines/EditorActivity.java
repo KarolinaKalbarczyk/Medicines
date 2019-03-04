@@ -15,7 +15,6 @@
  */
 package com.example.medicines;
 
-import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -41,7 +40,7 @@ import static android.arch.persistence.room.Room.databaseBuilder;
 
 public class EditorActivity extends AppCompatActivity {
 
-    private MedicineView medicineView ;
+    private MedicineView medicineView;
 
     private static final int EXISTING_MEDICINE_LOADER = 0;
 
@@ -78,11 +77,12 @@ public class EditorActivity extends AppCompatActivity {
         ActivityEditorBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
 
         medicineView = new MedicineView();
-        medicineView.setName("Vit. C");
-        medicineView.setTimes(1);
-        medicineView.setOne_dose(1);
-        medicineView.setQuantity(20);
+//        medicineView.setName("Vit. C");
+//        medicineView.setTimes(1);
+//        medicineView.setOne_dose(1);
+//        medicineView.setQuantity(20);
         binding.setMedicineView(medicineView);
+
 
 
 
