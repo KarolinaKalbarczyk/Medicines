@@ -99,16 +99,16 @@ public class EditorActivity extends AppCompatActivity {
             getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
         }
 
-        mNameEditText = (EditText) findViewById(R.id.name);
-        mOneDoseEditText = (EditText) findViewById(R.id.oneDose);
-        mQuantityEditText = (EditText) findViewById(R.id.quantity);
-        mTimesEditText = (EditText) findViewById(R.id.times);
-
-
-        mNameEditText.setOnTouchListener(mTouchListener);
-        mOneDoseEditText.setOnTouchListener(mTouchListener);
-        mTimesEditText.setOnTouchListener(mTouchListener);
-        mQuantityEditText.setOnTouchListener(mTouchListener);
+//        mNameEditText = (EditText) findViewById(R.id.name);
+//        mOneDoseEditText = (EditText) findViewById(R.id.oneDose);
+//        mQuantityEditText = (EditText) findViewById(R.id.quantity);
+//        mTimesEditText = (EditText) findViewById(R.id.times);
+//
+//
+//        mNameEditText.setOnTouchListener(mTouchListener);
+//        mOneDoseEditText.setOnTouchListener(mTouchListener);
+//        mTimesEditText.setOnTouchListener(mTouchListener);
+//        mQuantityEditText.setOnTouchListener(mTouchListener);
     }
 
     private void saveMedicine() {
@@ -130,7 +130,7 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        values.put(loadAllByName(), nameString);
+        values.put(getName(), nameString);
 
         if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(this, getString(R.string.quantity_error),
