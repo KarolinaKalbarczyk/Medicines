@@ -10,12 +10,12 @@ import java.util.List;
 public class MedicineDAO {
 
     @Dao
-    public interface MedicineDbDao {
+    public interface MedicineDao {
 
         @Query("SELECT * FROM Medicine")
         List<Medicine> getAll();
 
-        @Query("SELECT * FROM Medicine WHERE name")
+        @Query("SELECT * FROM Medicine ORDER BY name")
         List<Medicine> loadAllByName();
 
         @Insert
