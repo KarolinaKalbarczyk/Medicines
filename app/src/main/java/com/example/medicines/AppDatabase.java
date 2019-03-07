@@ -8,7 +8,7 @@ import android.content.Context;
 
 @Database(entities = {Medicine.class}, version = 1)
     public abstract class AppDatabase extends RoomDatabase {
-        public abstract MedicineDAO medicineDAO();
+        public abstract MedicineDao medicineDAO();
 
         private static volatile AppDatabase INSTANCE;
 
@@ -18,6 +18,7 @@ import android.content.Context;
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                 AppDatabase.class, "medicine_database")
+                                .allowMainThreadQueries()   //TODO UWAGA!! operacje na bazie danych nie powinny byc wykonywane w glownym watku aplikacji, ale w tym momencie (tymczasowo) możemy na to pozwolic
                                 .build();
                     }
                 }

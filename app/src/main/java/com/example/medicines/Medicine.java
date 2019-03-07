@@ -9,9 +9,10 @@ import android.support.annotation.NonNull;
 
 @Entity
 public class Medicine {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)    //TODO jesli chcesz zeby id w bazie denerowalo sie samo, trzeba dodac autoDenerate = true
     public int uid;
 
+    //jeśli z mXxxxx, to raczej nie public; jeśli mXxxx to @ColumnInfo
     public String mName;
     public int mTimes;
     public int mQuantity;

@@ -1,10 +1,14 @@
 package com.example.medicines;
 
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+
+//moze raczej MedicineViewModel
 public class MedicineView {
 
     public String name;
 
-    public int times;
+    public ObservableInt   times = new ObservableInt();
 
     public int quantity;
 
@@ -19,10 +23,11 @@ public class MedicineView {
 
 
     public int getTimes() {
-        return times;
+        return times.get();
     }
+
     public void setTimes(int times) {
-        this.times = times;
+        this.times.set(times);
     }
 
     public int getQuantity() {

@@ -7,7 +7,8 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-public class MedicineDAO {
+//ta klasa jest niepotrzebna
+//public class MedicineDAO {
 
     @Dao
     public interface MedicineDao {
@@ -15,7 +16,7 @@ public class MedicineDAO {
         @Query("SELECT * FROM Medicine")
         List<Medicine> getAll();
 
-        @Query("SELECT * FROM Medicine ORDER BY name")
+        @Query("SELECT * FROM Medicine ORDER BY mName")
         List<Medicine> loadAllByName();
 
         @Insert
@@ -26,4 +27,4 @@ public class MedicineDAO {
     }
 
 
-}
+//}

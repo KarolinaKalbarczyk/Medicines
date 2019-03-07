@@ -16,11 +16,10 @@
 package com.example.medicines;
 
 import android.app.LoaderManager;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -30,12 +29,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
 
-import static android.arch.persistence.room.Room.databaseBuilder;
 
 
 public class EditorActivity extends AppCompatActivity {
@@ -46,17 +43,10 @@ public class EditorActivity extends AppCompatActivity {
 
     private Uri mCurrentMedicineUri;
 
-    private EditText mNameEditText;
-
-    private EditText mOneDoseEditText;
-
-    private EditText mQuantityEditText;
-
-    private EditText mTimesEditText;
-
-    private Image image;
-
     private boolean mMedicineHasChanged = false;
+
+    private AppDatabase           medicine;
+    private ActivityEditorBinding binding;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -72,18 +62,17 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_editor);
 
-        AppDatabase medicine = databaseBuilder(getApplicationContext(), AppDatabase.class, "Medicine").build();
+        //AppDatabase medicine = databaseBuilder(getApplicationContext(), AppDatabase.class, "Medicine").build();
+        medicine = AppDatabase.getDatabase(this);
 
-        ActivityEditorBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
 
         medicineView = new MedicineView();
-//        medicineView.setName("Vit. C");
-//        medicineView.setTimes(1);
-//        medicineView.setOne_dose(1);
-//        medicineView.setQuantity(20);
+        medicineView.setName("Vit. C");
+        medicineView.setTimes(1);
+        medicineView.setOne_dose(1);
+        medicineView.setQuantity(20);
         binding.setMedicineView(medicineView);
-
-
 
 
         Intent intent = getIntent();
@@ -99,23 +88,14 @@ public class EditorActivity extends AppCompatActivity {
             getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
         }
 
-//        mNameEditText = (EditText) findViewById(R.id.name);
-//        mOneDoseEditText = (EditText) findViewById(R.id.oneDose);
-//        mQuantityEditText = (EditText) findViewById(R.id.quantity);
-//        mTimesEditText = (EditText) findViewById(R.id.times);
-//
-//
-//        mNameEditText.setOnTouchListener(mTouchListener);
-//        mOneDoseEditText.setOnTouchListener(mTouchListener);
-//        mTimesEditText.setOnTouchListener(mTouchListener);
-//        mQuantityEditText.setOnTouchListener(mTouchListener);
+        binding.saveButton.setOnClickListener(view -> saveMedicine());
     }
 
     private void saveMedicine() {
-        String nameString = mNameEditText.getText().toString().trim();
-        String quantityString = mQuantityEditText.getText().toString().trim();
-        String oneDoseString = mOneDoseEditText.getText().toString().trim();
-        String timesString = mTimesEditText.getText().toString().trim();
+        String nameString = binding.name.getText().toString().trim();
+        String quantityString = binding.quantity.getText().toString().trim();
+        String oneDoseString = binding.oneDose.getText().toString().trim();
+        String timesString = binding.times.getText().toString().trim();
 
         if (mCurrentMedicineUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(quantityString)
@@ -123,36 +103,41 @@ public class EditorActivity extends AppCompatActivity {
             return;
         }
 
-        ContentValues values = new ContentValues();
+        //ContentValues values = new ContentValues();
 
         if (TextUtils.isEmpty(nameString)) {
             Toast.makeText(this, getString(R.string.name_error),
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        values.put(getName(), nameString);
+        //values.put(getName(), nameString);
 
         if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(this, getString(R.string.quantity_error),
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        int quantity;
         try {
-            int quantity = Integer.parseInt(quantityString);
-            values.put(MedicineContract.MedicineEntry.COLUMN_QUANTITY, quantityString);
+            quantity = Integer.parseInt(quantityString);
+            //values.put(MedicineContract.MedicineEntry.COLUMN_QUANTITY, quantityString);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "You must input a valid quantity", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         if (TextUtils.isEmpty(oneDoseString)) {
             Toast.makeText(this, getString(R.string.one_dose_error),
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        int oneDose;
         try {
-            int oneDose = Integer.parseInt(oneDoseString);
-            values.put(MedicineContract.MedicineEntry.COLUMN_ONE_DOSE, oneDoseString);
+            oneDose = Integer.parseInt(oneDoseString);
+            //values.put(MedicineContract.MedicineEntry.COLUMN_ONE_DOSE, oneDoseString);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "You must input a valid dose", Toast.LENGTH_SHORT).show();
             return;
@@ -163,19 +148,25 @@ public class EditorActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        int times;
         try {
-            int times = Integer.parseInt(timesString);
-            values.put(MedicineContract.MedicineEntry.COLUMN_TIMES, timesString);
+            times = Integer.parseInt(timesString);
+            //values.put(MedicineContract.MedicineEntry.COLUMN_TIMES, timesString);
         } catch (NumberFormatException e) {
             Toast.makeText(this, "You must input a valid number", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
+        medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
+        // dla sprawdzenia List<Medicine> all = medicine.medicineDAO().getAll();
     }
 
 
     // menu
 
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
@@ -218,5 +209,11 @@ public class EditorActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @BindingAdapter("myTimes")
+    public static void setImage(View view, MedicineView medicine) {
+        if (medicine.getTimes() == 0)
+            view.setVisibility(View.GONE);
     }
 }

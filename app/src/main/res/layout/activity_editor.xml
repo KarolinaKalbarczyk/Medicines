@@ -8,6 +8,8 @@
            <variable
            name="medicineView"
            type="com.example.medicines.MedicineView" />
+
+        <import type="java.lang.String"/>
     </data>
 
     <ScrollView
@@ -29,7 +31,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="50dp"
                 android:lineSpacingExtra="8sp"
-                android:text="@{medicineView.name}"
+                android:text="@={medicineView.name}"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
@@ -91,7 +93,8 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
-                android:text="@{medicineView.times}"
+                app:myTimes="@{medicineView}"
+                android:text='@{(medicineView.times > 0) ? String.valueOf(medicineView.times) : ""}'
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -122,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:text="@{medicineView.one_dose}"
+                android:text="@={`` + medicineView.one_dose}"
                 android:ems="10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -180,7 +183,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:text="@{medicineView.quantity}"
+                android:text="@{String.valueOf(medicineView.quantity)}"
                 android:ems="10"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -261,6 +264,16 @@
                 app:layout_constraintEnd_toStartOf="@+id/time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textView9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="save"
+                />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
