@@ -1,8 +1,8 @@
 package com.example.medicines;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import android.content.Context;
 
 
@@ -11,6 +11,7 @@ import android.content.Context;
         public abstract MedicineDao medicineDAO();
 
         private static volatile AppDatabase INSTANCE;
+
 
         static AppDatabase getDatabase(final Context context) {
             if (INSTANCE == null) {

@@ -1,14 +1,13 @@
 package com.example.medicines;
 
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
+import androidx.databinding.ObservableInt;
 
 //moze raczej MedicineViewModel
-public class MedicineView {
+public class MedicineViewModel {
 
     public String name;
 
-    public ObservableInt   times = new ObservableInt();
+    public ObservableInt times = new ObservableInt();
 
     public int quantity;
 

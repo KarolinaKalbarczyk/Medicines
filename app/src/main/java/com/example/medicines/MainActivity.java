@@ -1,7 +1,6 @@
 package com.example.medicines;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.example.medicines.databinding.ActivityEditorBinding;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
