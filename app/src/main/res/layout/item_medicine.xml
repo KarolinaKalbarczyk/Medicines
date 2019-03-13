@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="400dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Vit. C"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/timesByDayView"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/nameView"
+        android:text="Times by day:"/>
+
+
+    <TextView
+        android:id="@+id/timesView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="1"
+        android:layout_below="@id/nameView"
+        android:layout_toRightOf="@id/timesByDayView"
+        android:padding="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/oneDoseQuestionView"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/timesView"
+        android:layout_marginLeft="80dp"
+        android:layout_below="@id/nameView"
+        android:text="One dose:"/>
+
+
+    <TextView
+        android:id="@+id/oneDoseView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="1"
+        android:layout_below="@id/nameView"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/oneDoseQuestionView"
+        android:padding="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/quantityQuestionView"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_marginLeft="100dp"
+        android:layout_below="@id/timesByDayView"
+        android:text="Stack:"/>
+
+
+    <TextView
+        android:id="@+id/quantityView"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/quantityQuestionView"
+        android:layout_below="@id/timesByDayView"
+        android:padding="10dp"
+        android:layout_marginLeft="1dp"
+        android:text="20"/>
+
+</RelativeLayout>
