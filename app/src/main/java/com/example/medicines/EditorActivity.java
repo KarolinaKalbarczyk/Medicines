@@ -37,7 +37,7 @@ import com.example.medicines.databinding.ActivityEditorBinding;
 
 public class EditorActivity extends AppCompatActivity {
 
-    private MedicineView medicineView;
+    private MedicineViewModel medicineViewModel;
 
     private static final int EXISTING_MEDICINE_LOADER = 0;
 
@@ -67,12 +67,12 @@ public class EditorActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
 
-        medicineView = new MedicineView();
-        medicineView.setName("Vit. C");
-        medicineView.setTimes(1);
-        medicineView.setOne_dose(1);
-        medicineView.setQuantity(20);
-        binding.setMedicineView(medicineView);
+        medicineViewModel = new MedicineViewModel();
+        medicineViewModel.setName("Vit. C");
+        medicineViewModel.setTimes(1);
+        medicineViewModel.setOneDose(1);
+        medicineViewModel.setQuantity(20);
+        binding.setMedicineViewModel(medicineViewModel);
 
 
         Intent intent = getIntent();
@@ -212,7 +212,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     @BindingAdapter("myTimes")
-    public static void setImage(View view, MedicineView medicine) {
+    public static void setImage(View view, MedicineViewModel medicine) {
         if (medicine.getTimes() == 0)
             view.setVisibility(View.GONE);
     }

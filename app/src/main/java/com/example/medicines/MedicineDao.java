@@ -16,7 +16,7 @@ import java.util.List;
         @Query("SELECT * FROM Medicine")
         List<Medicine> getAll();
 
-        @Query("SELECT * FROM Medicine ORDER BY mName")
+        @Query("SELECT * FROM Medicine ORDER BY name")
         List<Medicine> loadAllByName();
 
         @Insert

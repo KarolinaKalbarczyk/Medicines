@@ -6,8 +6,8 @@
 
     <data>
            <variable
-           name="medicineView"
-           type="com.example.medicines.MedicineView" />
+           name="medicineViewModel"
+           type="com.example.medicines.MedicineViewModel" />
 
         <import type="java.lang.String"/>
     </data>
@@ -31,7 +31,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="50dp"
                 android:lineSpacingExtra="8sp"
-                android:text="@={medicineView.name}"
+                android:text="@={medicineViewModel.name}"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="italic"
@@ -93,8 +93,8 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
-                app:myTimes="@{medicineView}"
-                android:text='@{(medicineView.times > 0) ? String.valueOf(medicineView.times) : ""}'
+                app:myTimes="@{medicineViewModel}"
+                android:text='@{(medicineViewModel.times > 0) ? String.valueOf(medicineViewModel.times) : ""}'
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:text="@={`` + medicineView.one_dose}"
+                android:text="@={`` + medicineViewModel.oneDose}"
                 android:ems="10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -183,7 +183,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:text="@{String.valueOf(medicineView.quantity)}"
+                android:text="@{String.valueOf(medicineViewModel.quantity)}"
                 android:ems="10"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"

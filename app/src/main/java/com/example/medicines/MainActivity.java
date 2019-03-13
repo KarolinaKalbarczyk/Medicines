@@ -23,28 +23,37 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.fab) FloatingActionButton fab;
+    //@BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
 
+    private MedicineViewModel medicineViewModel;
+    private ActivityEditorBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        //setContentView(R.layout.activity_main);
+        //ButterKnife.bind(this);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        medicineViewModel = new MedicineViewModel();
+
+        binding.setMedicineViewModel(medicineViewModel);
+
+
+        binding = DataBindingUtil.setContentView(this, R.layout.app_bar_main);
+        //ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.app_bar_main);
+
 
         //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "You can add new medicine", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(), EditorActivity.class));
             }
         });
 
@@ -84,12 +93,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            startActivity(new Intent(this, EditorActivity.class));
+        if (id == R.id.today) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.all) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.pharmacy) {
 
         } else if (id == R.id.nav_send) {
 

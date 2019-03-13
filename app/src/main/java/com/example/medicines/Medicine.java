@@ -1,10 +1,9 @@
 package com.example.medicines;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-
-
 
 
 @Entity
@@ -13,17 +12,26 @@ public class Medicine {
     public int uid;
 
     //jeśli z mXxxxx, to raczej nie public; jeśli mXxxx to @ColumnInfo
+    @ColumnInfo(name = "name")
     public String mName;
+
+    @ColumnInfo(name = "times")
     public int mTimes;
+
+    @ColumnInfo(name = "quantity")
     public int mQuantity;
-    public int mOne_dose;
+
+    @ColumnInfo(name = "oneDose")
+    public int mOneDose;
+
+    @ColumnInfo(name = "image")
     public byte[] mImage;
 
-    public Medicine(@NonNull String name, int times, int quantity, int one_dose, byte[] image) {
+    public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image) {
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
-        this.mOne_dose = one_dose;
+        this.mOneDose = oneDose;
         this.mImage = image;
     }
 
@@ -39,8 +47,8 @@ public class Medicine {
         return this.mQuantity;
     }
 
-    public int getOne_dose() {
-        return this.mOne_dose;
+    public int getOneDose() {
+        return this.mOneDose;
     }
 
     public byte[] getImage() {

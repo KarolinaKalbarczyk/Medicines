@@ -1,10 +1,9 @@
 package com.example.medicines;
 
-import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.support.design.widget.FloatingActionButton;
 
-//moze raczej MedicineViewModel
-public class MedicineView {
+public class MedicineViewModel {
 
     public String name;
 
@@ -12,7 +11,17 @@ public class MedicineView {
 
     public int quantity;
 
-    public int one_dose;
+    public int oneDose;
+
+    public FloatingActionButton fab;
+
+    public FloatingActionButton getFab() {
+        return fab;
+    }
+
+    public void setFab(FloatingActionButton fab) {
+        this.fab = fab;
+    }
 
     public String getName() {
         return name;
@@ -20,7 +29,6 @@ public class MedicineView {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public int getTimes() {
         return times.get();
@@ -37,11 +45,11 @@ public class MedicineView {
         this.quantity = quantity;
     }
 
-    public int getOne_dose() {
-        return one_dose;
+    public int getOneDose() {
+        return oneDose;
     }
-    public void setOne_dose(int one_dose) {
-        this.one_dose = one_dose;
+    public void setOneDose(int oneDose) {
+        this.oneDose = oneDose;
     }
 
 }
