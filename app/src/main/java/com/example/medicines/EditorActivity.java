@@ -15,7 +15,6 @@
  */
 package com.example.medicines;
 
-import android.app.LoaderManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
@@ -24,7 +23,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,7 +30,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
-
 
 
 public class EditorActivity extends AppCompatActivity {
@@ -45,8 +42,10 @@ public class EditorActivity extends AppCompatActivity {
 
     private boolean mMedicineHasChanged = false;
 
-    private AppDatabase           medicine;
+    //private AppDatabase           medicine;
     private ActivityEditorBinding binding;
+
+    public static final String MEDICINE_DATA = "data_medicine";
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -63,41 +62,36 @@ public class EditorActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_editor);
 
         //AppDatabase medicine = databaseBuilder(getApplicationContext(), AppDatabase.class, "Medicine").build();
-        medicine = AppDatabase.getDatabase(this);
+        //medicine = AppDatabase.getDatabase(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
 
-        medicineViewModel = new MedicineViewModel();
-        medicineViewModel.setName("Vit. C");
-        medicineViewModel.setTimes(1);
-        medicineViewModel.setOneDose(1);
-        medicineViewModel.setQuantity(20);
-        binding.setMedicineViewModel(medicineViewModel);
-
 
         Intent intent = getIntent();
-        mCurrentMedicineUri = intent.getData();
+        Medicine med = (Medicine) intent.getSerializableExtra(MEDICINE_DATA);
+        //mCurrentMedicineUri = intent.getData();
 
-        if (mCurrentMedicineUri == null) {
+        if (med == null) {
             setTitle(getString(R.string.editor_activity_title_new_medicine));
-
+            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)));
             invalidateOptionsMenu();
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_medicine));
-
-            getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
+            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)), med);
+            //getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
         }
+        binding.setMedicineViewModel(medicineViewModel);
 
         binding.saveButton.setOnClickListener(view -> saveMedicine());
     }
 
     private void saveMedicine() {
-        String nameString = binding.name.getText().toString().trim();
+       /* String nameString = binding.name.getText().toString().trim();
         String quantityString = binding.quantity.getText().toString().trim();
         String oneDoseString = binding.oneDose.getText().toString().trim();
-        String timesString = binding.times.getText().toString().trim();
+        String timesString = binding.times.getText().toString().trim();*/
 
-        if (mCurrentMedicineUri == null &&
+       /* if (mCurrentMedicineUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(quantityString)
                 && TextUtils.isEmpty(timesString) && TextUtils.isEmpty(oneDoseString)) {
             return;
@@ -156,10 +150,14 @@ public class EditorActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             Toast.makeText(this, "You must input a valid number", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
+        if(medicineViewModel.saveData())    //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+            finish();
+        else
+            Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
 
-        medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
+        //medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
         // dla sprawdzenia List<Medicine> all = medicine.medicineDAO().getAll();
     }
 
@@ -168,7 +166,10 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
+        if (medicineViewModel.id != 0)
+            getMenuInflater().inflate(R.menu.menu_editor, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_editor, menu);    //TODO stworzyc menu z samym Save
         return true;
     }
 
@@ -187,7 +188,6 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveMedicine();
-                finish();
                 return true;
             case R.id.action_delete:
                 //showDeleteConfirmationDialog();

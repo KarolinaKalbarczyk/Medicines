@@ -4,18 +4,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.medicines.databinding.ActivityEditorBinding;
+import com.example.medicines.databinding.ActivityMainBinding;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,12 +21,12 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //@BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    /*@BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.nav_view) NavigationView navigationView;*/
 
-    private MedicineViewModel medicineViewModel;
-    private ActivityEditorBinding binding;
+    private MedicineViewModel   medicineViewModel;
+    private ActivityMainBinding binding;
 
 
     @Override
@@ -38,33 +35,42 @@ public class MainActivity extends AppCompatActivity
         //setContentView(R.layout.activity_main);
         //ButterKnife.bind(this);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        medicineViewModel = new MedicineViewModel();
-
-        binding.setMedicineViewModel(medicineViewModel);
-
-
-        binding = DataBindingUtil.setContentView(this, R.layout.app_bar_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.app_bar_main);
+
+        setSupportActionBar(binding.appBarMain.toolbar);
+
+        //medicineViewModel = new MedicineViewModel();
+
+        //binding.setMedicineViewModel(medicineViewModel);
+
+
+
 
 
         //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), EditorActivity.class));
+                Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
+                //intent.putExtra(EditorActivity.MEDICINE_DATA, new Medicine("Vit C", 10, 20, 1, new byte[0]));
+                startActivity(intent);
             }
         });
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this,
+                binding.drawerLayout,
+                binding.appBarMain.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
