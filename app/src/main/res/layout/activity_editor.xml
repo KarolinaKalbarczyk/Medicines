@@ -94,7 +94,7 @@
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 app:myTimes="@{medicineViewModel}"
-                android:text='@{(medicineViewModel.times > 0) ? String.valueOf(medicineViewModel.times) : ""}'
+                android:text='@={`` + medicineViewModel.times}'
                 android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -183,7 +183,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:text="@{String.valueOf(medicineViewModel.quantity)}"
+                android:text="@={`` + medicineViewModel.quantity}"
                 android:ems="10"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"

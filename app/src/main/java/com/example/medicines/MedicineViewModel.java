@@ -2,25 +2,35 @@ package com.example.medicines;
 
 import android.databinding.ObservableInt;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
 
 public class MedicineViewModel {
 
-    public String name;
+    private MedicineService service;
 
-    public ObservableInt   times = new ObservableInt();
+    public int id;
+    public String name = "";
+
+    public int times;
 
     public int quantity;
 
     public int oneDose;
 
-    public FloatingActionButton fab;
+    public byte[] image = new byte[0];
 
-    public FloatingActionButton getFab() {
-        return fab;
+    public MedicineViewModel(MedicineService service){
+        this.service = service;
     }
 
-    public void setFab(FloatingActionButton fab) {
-        this.fab = fab;
+    public MedicineViewModel(MedicineService service, Medicine medicine){
+        this.service = service;
+
+        id = medicine.getUid();
+        name = medicine.getName();
+        times = medicine.getTimes();
+        quantity = medicine.getQuantity();
+        oneDose = medicine.getOneDose();
     }
 
     public String getName() {
@@ -31,11 +41,11 @@ public class MedicineViewModel {
     }
 
     public int getTimes() {
-        return times.get();
+        return times;
     }
 
     public void setTimes(int times) {
-        this.times.set(times);
+        this.times = times;
     }
 
     public int getQuantity() {
@@ -50,6 +60,21 @@ public class MedicineViewModel {
     }
     public void setOneDose(int oneDose) {
         this.oneDose = oneDose;
+    }
+
+    //zapisywanie danych o leku
+
+    public boolean saveData(){
+        if (TextUtils.isEmpty(name)) {
+            return false;
+        }
+
+        if (quantity <= 0) {
+            return false;
+        }
+
+        service.saveMedicine(new Medicine(name, times, quantity, oneDose, image));
+        return true;
     }
 
 }
