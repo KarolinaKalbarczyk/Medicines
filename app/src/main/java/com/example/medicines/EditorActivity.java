@@ -184,12 +184,16 @@ public class EditorActivity extends AppCompatActivity {
         return true;
     }
 
+    // zmienilam mCurrentMedicineUri == null na !=
+    // i menuItem.setVisible(false) na manuItem.setVisible(true)
+    //czemu teraz działa?
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (mCurrentMedicineUri == null) {
+        if (mCurrentMedicineUri != null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
+            menuItem.setVisible(true);
         }
         return true;
     }
@@ -204,28 +208,28 @@ public class EditorActivity extends AppCompatActivity {
             case R.id.action_delete:
                 //showDeleteConfirmationDialog();
                 return true;
-            case android.R.id.home:
-                if (!mMedicineHasChanged) {
-                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
-                    return true;
-                }
-                DialogInterface.OnClickListener discardButtonClickListener =
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
-                            }
-                        };
-
-//                showUnsavedChangesDialog(discardButtonClickListener);
-                return true;
+//            case android.R.id.home:
+//                if (!mMedicineHasChanged) {
+//                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+//                    return true;
+//                }
+//                DialogInterface.OnClickListener discardButtonClickListener =
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+//                            }
+//                        };
+//
+//                //                showUnsavedChangesDialog(discardButtonClickListener);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @BindingAdapter("myTimes")
-    public static void setImage(View view, MedicineViewModel medicine) {
-        if (medicine.getTimes() == 0)
-            view.setVisibility(View.GONE);
-    }
+//    @BindingAdapter("myTimes")
+//    public static void setImage(View view, MedicineViewModel medicine) {
+//        if (medicine.getTimes() == 0)
+//            view.setVisibility(View.GONE);
+//    }
 }
