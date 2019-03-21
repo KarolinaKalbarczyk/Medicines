@@ -84,11 +84,11 @@ public class EditorActivity extends AppCompatActivity {
         //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA?
         if (med == null) {
             setTitle(getString(R.string.editor_activity_title_new_medicine));
-            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)));
+            medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService());
             invalidateOptionsMenu();
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_medicine));
-            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)), med);
+            medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService(), med);
             //getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
         }
         binding.setMedicineViewModel(medicineViewModel);
@@ -188,15 +188,15 @@ public class EditorActivity extends AppCompatActivity {
     // i menuItem.setVisible(false) na manuItem.setVisible(true)
     //czemu teraz działa?
 
-    @Override
+    /*@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (mCurrentMedicineUri != null) {
+        if (mCurrentMedicineUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
-            menuItem.setVisible(true);
+            menuItem.setVisible(false);
         }
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -232,4 +232,8 @@ public class EditorActivity extends AppCompatActivity {
 //        if (medicine.getTimes() == 0)
 //            view.setVisibility(View.GONE);
 //    }
+
+    private MedicineApp getMedicineApp(){
+        return (MedicineApp) getApplication();
+    }
 }
