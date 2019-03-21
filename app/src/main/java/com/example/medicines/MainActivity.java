@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -21,11 +21,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //@BindView(R.id.fab) FloatingActionButton fab;
-    /*@BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;*/
+//    @BindView(R.id.toolbar) Toolbar toolbar;
+//    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+//    @BindView(R.id.nav_view) NavigationView navigationView;
 
-    private MedicineViewModel   medicineViewModel;
+    private MedicineViewModel medicineViewModel;
     private ActivityMainBinding binding;
 
 
@@ -36,16 +36,12 @@ public class MainActivity extends AppCompatActivity
         //ButterKnife.bind(this);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        //ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.app_bar_main);
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        //medicineViewModel = new MedicineViewModel();
-
-        //binding.setMedicineViewModel(medicineViewModel);
-
-
-
+//        medicineViewModel = new MedicineViewModel();
+//
+//        binding.setMedicineViewModel(medicineViewModel);
 
 
         //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -60,12 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                binding.drawerLayout,
-                binding.appBarMain.toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-
+                this, binding.drawerLayout, binding.appBarMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -75,9 +66,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

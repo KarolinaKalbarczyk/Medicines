@@ -1,30 +1,23 @@
 package com.example.medicines;
 
+import android.databinding.ObservableInt;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 
 public class MedicineViewModel {
+
     private MedicineService service;
 
     public int id;
     public String name = "";
 
-    public int   times;
+    public int times;
 
     public int quantity;
 
     public int oneDose;
 
     public byte[] image = new byte[0];
-
-    /*public FloatingActionButton fab;
-
-    public FloatingActionButton getFab() {
-        return fab;
-    }
-
-    public void setFab(FloatingActionButton fab) {
-        this.fab = fab;
-    }*/
 
     public MedicineViewModel(MedicineService service){
         this.service = service;
@@ -68,6 +61,8 @@ public class MedicineViewModel {
     public void setOneDose(int oneDose) {
         this.oneDose = oneDose;
     }
+
+    //zapisywanie danych o leku
 
     public boolean saveData(){
         if (TextUtils.isEmpty(name)) {
