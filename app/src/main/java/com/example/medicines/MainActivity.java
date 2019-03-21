@@ -9,10 +9,15 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.medicines.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +67,16 @@ public class MainActivity extends AppCompatActivity
 
         //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         binding.navView.setNavigationItemSelectedListener(this);
+
+        //todo tymczasowe tworzenie listy
+        List<Medicine> medicines = new ArrayList<>();
+        medicines.add(new Medicine("Vit A", 10, 20, 1, new byte[0]));
+        medicines.add(new Medicine("Vit B", 10, 20, 1, new byte[0]));
+        medicines.add(new Medicine("Vit C", 10, 20, 1, new byte[0]));
+
+        RecyclerView rv = binding.appBarMain.contentMain.findViewById(R.id.myRecyclerView);
+        rv.setAdapter(new MedicineAdapter(medicines));
+        rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
