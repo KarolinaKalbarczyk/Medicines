@@ -34,7 +34,7 @@ import android.widget.Toast;
 import com.example.medicines.databinding.ActivityEditorBinding;
 
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends BaseActivity {
 
     private MedicineViewModel medicineViewModel;
 
@@ -163,9 +163,10 @@ public class EditorActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        if(medicineViewModel.saveData())    //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+        if(medicineViewModel.saveData()) {    //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+            setResult(666); //przykladowy kod wyniku
             finish();
-        else
+        }else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
 
         //medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
@@ -232,8 +233,4 @@ public class EditorActivity extends AppCompatActivity {
 //        if (medicine.getTimes() == 0)
 //            view.setVisibility(View.GONE);
 //    }
-
-    private MedicineApp getMedicineApp(){
-        return (MedicineApp) getApplication();
-    }
 }

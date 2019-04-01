@@ -34,6 +34,11 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         return medicines.size();
     }
 
+    public void updateList(List<Medicine> newMedicines){
+        medicines = newMedicines;
+        notifyDataSetChanged();
+    }
+
 
     class MedicineViewHolder extends RecyclerView.ViewHolder {
 
