@@ -9,7 +9,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/nameView"
+        android:id="@+id/medicineName"
         android:layout_width="400dp"
         android:layout_height="30dp"
         android:layout_marginLeft="10dp"
@@ -24,16 +24,16 @@
         android:layout_height="50dp"
         android:padding="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_below="@id/nameView"
+        android:layout_below="@id/medicineName"
         android:text="Times by day:"/>
 
 
     <TextView
-        android:id="@+id/timesView"
+        android:id="@+id/medicineTimes"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:text="1"
-        android:layout_below="@id/nameView"
+        android:layout_below="@id/medicineName"
         android:layout_toRightOf="@id/timesByDayView"
         android:padding="10dp"
         android:textStyle="bold" />
@@ -42,19 +42,20 @@
         android:id="@+id/oneDoseQuestionView"
         android:layout_width="110dp"
         android:layout_height="50dp"
+        android:layout_below="@id/medicineName"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="0dp"
+        android:layout_toRightOf="@id/medicineTimes"
         android:padding="10dp"
-        android:layout_toRightOf="@id/timesView"
-        android:layout_marginLeft="80dp"
-        android:layout_below="@id/nameView"
-        android:text="One dose:"/>
+        android:text="One dose:" />
 
 
     <TextView
-        android:id="@+id/oneDoseView"
+        android:id="@+id/medicineOneDose"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:text="1"
-        android:layout_below="@id/nameView"
+        android:layout_below="@id/medicineName"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/oneDoseQuestionView"
         android:padding="10dp"
@@ -71,7 +72,7 @@
 
 
     <TextView
-        android:id="@+id/quantityView"
+        android:id="@+id/medicineQuantity"
         android:layout_width="110dp"
         android:layout_height="50dp"
         android:layout_toRightOf="@id/quantityQuestionView"

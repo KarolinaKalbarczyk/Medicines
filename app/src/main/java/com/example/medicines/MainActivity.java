@@ -9,10 +9,15 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.medicines.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +25,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //@BindView(R.id.fab) FloatingActionButton fab;
-//    @BindView(R.id.toolbar) Toolbar toolbar;
-//    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-//    @BindView(R.id.nav_view) NavigationView navigationView;
 
     private MedicineViewModel medicineViewModel;
     private ActivityMainBinding binding;
@@ -32,41 +33,41 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        //ButterKnife.bind(this);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-//        medicineViewModel = new MedicineViewModel();
-//
-//        binding.setMedicineViewModel(medicineViewModel);
 
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-                //intent.putExtra(EditorActivity.MEDICINE_DATA, new Medicine("Vit C", 10, 20, 1, new byte[0]));
                 startActivity(intent);
             }
         });
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.drawerLayout, binding.appBarMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         binding.navView.setNavigationItemSelectedListener(this);
+
+        //todo tymczasowe tworzenie listy
+        List<Medicine> medicines = new ArrayList<>();
+        medicines.add(new Medicine("Vit A", 10, 20, 1, new byte[0]));
+        medicines.add(new Medicine("Vit B", 10, 20, 1, new byte[0]));
+        medicines.add(new Medicine("Vit C", 10, 20, 1, new byte[0]));
+
+        RecyclerView rv = binding.appBarMain.contentMain.findViewById(R.id.myRecyclerView);
+        rv.setAdapter(new MedicineAdapter(medicines));
+        rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void onBackPressed() {
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
