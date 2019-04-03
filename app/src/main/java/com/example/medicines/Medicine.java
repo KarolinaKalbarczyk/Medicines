@@ -13,7 +13,6 @@ public class Medicine implements Serializable {
     @PrimaryKey(autoGenerate = true)    //TODO jesli chcesz zeby id w bazie generowalo sie samo, trzeba dodac autoGenerate = true
     public int uid;
 
-    //jeśli z mXxxxx, to raczej nie public; jeśli mXxxx to @ColumnInfo
     @ColumnInfo(name = "name")
     public String mName;
 

@@ -35,7 +35,7 @@ import android.widget.Toast;
 import com.example.medicines.databinding.ActivityEditorBinding;
 
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends BaseActivity {
 
     private MedicineViewModel medicineViewModel;
 
@@ -68,39 +68,28 @@ public class EditorActivity extends AppCompatActivity {
         Medicine med = (Medicine) intent.getSerializableExtra(MEDICINE_DATA);
 
 
-        //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA?
+        //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA
         if (med == null) {
             setTitle(getString(R.string.editor_activity_title_new_medicine));
-//            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)));
             medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService());
             invalidateOptionsMenu();
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_medicine));
-//            medicineViewModel = new MedicineViewModel(new MedicineService(AppDatabase.getDatabase(this)), med);
             medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService(), med);
         }
         binding.setMedicineViewModel(medicineViewModel);
-
-        // Próba zamiany saveButton na dole na action_save w menu
-        //Nie działa bo nie umie zapisac do bazy w lini 95, dlatego wyrzuca linię 97 ?
-
-//        Button saveButton = findViewById(R.id.action_save);
-//        saveButton.setOnClickListener(view -> saveMedicine());
 
         binding.saveButton.setOnClickListener(view -> saveMedicine());
     }
 
     private void saveMedicine() {
 
-        if(medicineViewModel.saveData())    //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+        if(medicineViewModel.saveData()) {  //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+            setResult(666); //ustawienie przykladowego kodu wyniku, który będzie porównywany
             finish();
-        else
+        } else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
-
-        //medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
-        // dla sprawdzenia List<Medicine> all = medicine.medicineDAO().getAll();
     }
-
 
     // menu
 
@@ -109,7 +98,7 @@ public class EditorActivity extends AppCompatActivity {
         if (medicineViewModel.id != 0)
             getMenuInflater().inflate(R.menu.menu_editor, menu);
         else
-            getMenuInflater().inflate(R.menu.menu_new, menu);    //TODO stworzyc menu z samym Save
+            getMenuInflater().inflate(R.menu.menu_new, menu);
         return true;
     }
 
@@ -118,22 +107,11 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveMedicine();
-                //finish();
                 return true;
             case R.id.action_delete:
-                //showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-//    @BindingAdapter("myTimes")
-//    public static void setImage(View view, MedicineViewModel medicine) {
-//        if (medicine.getTimes() == 0)
-//            view.setVisibility(View.GONE);
-//    }
-
-    private MedicineApp getMedicineApp(){
-        return (MedicineApp) getApplication();
-    }
 }

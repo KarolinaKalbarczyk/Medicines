@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
@@ -22,12 +24,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private MedicineViewModel medicineViewModel;
     private ActivityMainBinding binding;
+    private MedicineAdapter adapter;
+
+
+    //aby móc porównywać kod, w celu wyświetlenia, deklarujemy jeden z nich
+    private static final int NEW_MEDICINE = 1;
+
 
 
     @Override
@@ -44,7 +52,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-                startActivity(intent);
+            // co to robi?
+                startActivityForResult(intent, NEW_MEDICINE);
             }
         });
 
@@ -55,15 +64,34 @@ public class MainActivity extends AppCompatActivity
 
         binding.navView.setNavigationItemSelectedListener(this);
 
-        //todo tymczasowe tworzenie listy
-        List<Medicine> medicines = new ArrayList<>();
-        medicines.add(new Medicine("Vit A", 10, 20, 1, new byte[0]));
-        medicines.add(new Medicine("Vit B", 10, 20, 1, new byte[0]));
-        medicines.add(new Medicine("Vit C", 10, 20, 1, new byte[0]));
+        // zaladuj ArrayList do adaptera i wywolaj loadData
+        adapter = new MedicineAdapter(new ArrayList<>());
+        loadData();
 
-        RecyclerView rv = binding.appBarMain.contentMain.findViewById(R.id.myRecyclerView);
-        rv.setAdapter(new MedicineAdapter(medicines));
+        RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;
+        rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData
+    //po co drugi raz skoro wywoływalismy w 67 linii?
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == NEW_MEDICINE){
+            if(resultCode == 666){
+                loadData();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //pobieram "kontakt" do MedicineService, zaladowuje liste medicines za pomoca getAllMedicine i wywoluje update
+    private void loadData(){
+        //todo move to view model like in EditorActivity
+        MedicineService service = getMedicineApp().getMedicineService();
+        List<Medicine> medicines = service.getAllMedicine();
+        adapter.updateList(medicines);
     }
 
     @Override
