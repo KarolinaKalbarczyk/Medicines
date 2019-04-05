@@ -21,6 +21,8 @@ import com.example.medicines.databinding.ActivityMainBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.medicines.EditorActivity.MEDICINE_DATA;
+
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,8 +38,8 @@ public class MainActivity extends BaseActivity
 
 
 
-//    @Override
-    protected View onCreate(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
@@ -63,22 +65,19 @@ public class MainActivity extends BaseActivity
 
         binding.navView.setNavigationItemSelectedListener(this);
 
+        RecyclerViewClickListener listener = (view, position) -> {
+            //Toast.makeText(this, "Position " + position, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
+            intent.putExtra(MEDICINE_DATA, adapter.getMedicineByPosition(position));
+            startActivityForResult(intent, NEW_MEDICINE);
+        };
         // zaladuj ArrayList do adaptera i wywolaj loadData
-        adapter = new MedicineAdapter(new ArrayList<>());
+        adapter = new MedicineAdapter(new ArrayList<>(), listener);
         loadData();
 
         RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        RecyclerViewClickListener listener = (view, position) -> {
-            Toast.makeText(this, "Position " + position, Toast.LENGTH_SHORT).show();
-        };
-
-        View v = inflater.inflate(R.layout.content_main, container, false);
-        MedicineAdapter medicineAdapter = new MedicineAdapter(listener);
-        rv.setAdapter(medicineAdapter);
-        return v;
 }
 
 
