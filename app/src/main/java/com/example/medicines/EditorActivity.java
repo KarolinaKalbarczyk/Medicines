@@ -15,16 +15,11 @@
  */
 package com.example.medicines;
 
-import android.app.LoaderManager;
-import android.content.DialogInterface;
+
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -44,7 +39,6 @@ public class EditorActivity extends BaseActivity {
 
     private boolean mMedicineHasChanged = false;
 
-    //private AppDatabase           medicine;
     private ActivityEditorBinding binding;
 
     public static final String MEDICINE_DATA = "data_medicine";
@@ -61,27 +55,14 @@ public class EditorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_editor);
-
-        //AppDatabase medicine = databaseBuilder(getApplicationContext(), AppDatabase.class, "Medicine").build();
-        //medicine = AppDatabase.getDatabase(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
-
-//        medicineViewModel = new MedicineViewModel();
-//        medicineViewModel.setName("Vit. C");
-//        medicineViewModel.setTimes(1);
-//        medicineViewModel.setOneDose(1);
-//        medicineViewModel.setQuantity(20);
-//        binding.setMedicineViewModel(medicineViewModel);
-
 
         Intent intent = getIntent();
         Medicine med = (Medicine) intent.getSerializableExtra(MEDICINE_DATA);
 
-        //mCurrentMedicineUri = intent.getData();
 
-        //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA?
+        //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA
         if (med == null) {
             setTitle(getString(R.string.editor_activity_title_new_medicine));
             medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService());
@@ -89,7 +70,6 @@ public class EditorActivity extends BaseActivity {
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_medicine));
             medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService(), med);
-            //getLoaderManager().initLoader(EXISTING_MEDICINE_LOADER, null, (LoaderManager.LoaderCallbacks<Object>) this);
         }
         binding.setMedicineViewModel(medicineViewModel);
 
@@ -97,80 +77,12 @@ public class EditorActivity extends BaseActivity {
     }
 
     private void saveMedicine() {
-//        String nameString = binding.name.getText().toString().trim();
-//        String quantityString = binding.quantity.getText().toString().trim();
-//        String oneDoseString = binding.oneDose.getText().toString().trim();
-//        String timesString = binding.times.getText().toString().trim();
-//
-//        if (mCurrentMedicineUri == null &&
-//                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(quantityString)
-//                && TextUtils.isEmpty(timesString) && TextUtils.isEmpty(oneDoseString)) {
-//            return;
-//        }
-//
-//        //ContentValues values = new ContentValues();
-//
-//        if (TextUtils.isEmpty(nameString)) {
-//            Toast.makeText(this, getString(R.string.name_error),
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        //values.put(getName(), nameString);
-//
-//        if (TextUtils.isEmpty(quantityString)) {
-//            Toast.makeText(this, getString(R.string.quantity_error),
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        int quantity;
-//        try {
-//            quantity = Integer.parseInt(quantityString);
-//            //values.put(MedicineContract.MedicineEntry.COLUMN_QUANTITY, quantityString);
-//        } catch (NumberFormatException e) {
-//            Toast.makeText(this, "You must input a valid quantity", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//
-//        if (TextUtils.isEmpty(oneDoseString)) {
-//            Toast.makeText(this, getString(R.string.one_dose_error),
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        int oneDose;
-//        try {
-//            oneDose = Integer.parseInt(oneDoseString);
-//            //values.put(MedicineContract.MedicineEntry.COLUMN_ONE_DOSE, oneDoseString);
-//        } catch (NumberFormatException e) {
-//            Toast.makeText(this, "You must input a valid dose", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if (TextUtils.isEmpty(timesString)) {
-//            Toast.makeText(this, getString(R.string.times_error),
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        int times;
-//        try {
-//            times = Integer.parseInt(timesString);
-//            //values.put(MedicineContract.MedicineEntry.COLUMN_TIMES, timesString);
-//        } catch (NumberFormatException e) {
-//            Toast.makeText(this, "You must input a valid number", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
-        if(medicineViewModel.saveData()) {    //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
-            setResult(666); //przykladowy kod wyniku
+        if(medicineViewModel.saveData()) {  //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+            setResult(666); //ustawienie przykladowego kodu wyniku, który będzie porównywany
             finish();
-        }else
+        } else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
-
-        //medicine.medicineDAO().insertAll(new Medicine(nameString, times, quantity, oneDose, new byte[0]));
-        // dla sprawdzenia List<Medicine> all = medicine.medicineDAO().getAll();
     }
 
 
@@ -181,56 +93,20 @@ public class EditorActivity extends BaseActivity {
         if (medicineViewModel.id != 0)
             getMenuInflater().inflate(R.menu.menu_editor, menu);
         else
-            getMenuInflater().inflate(R.menu.menu_new, menu);    //TODO stworzyc menu z samym Save
+            getMenuInflater().inflate(R.menu.menu_new, menu);
         return true;
     }
-
-    // zmienilam mCurrentMedicineUri == null na !=
-    // i menuItem.setVisible(false) na manuItem.setVisible(true)
-    //czemu teraz działa?
-
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if (mCurrentMedicineUri == null) {
-            MenuItem menuItem = menu.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
-        }
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveMedicine();
-                //finish();
                 return true;
             case R.id.action_delete:
-                //showDeleteConfirmationDialog();
                 return true;
-//            case android.R.id.home:
-//                if (!mMedicineHasChanged) {
-//                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
-//                    return true;
-//                }
-//                DialogInterface.OnClickListener discardButtonClickListener =
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
-//                            }
-//                        };
-//
-//                //                showUnsavedChangesDialog(discardButtonClickListener);
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-//    @BindingAdapter("myTimes")
-//    public static void setImage(View view, MedicineViewModel medicine) {
-//        if (medicine.getTimes() == 0)
-//            view.setVisibility(View.GONE);
-//    }
 }

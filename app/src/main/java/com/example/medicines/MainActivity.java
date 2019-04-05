@@ -5,87 +5,85 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //@BindView(R.id.fab) FloatingActionButton fab;
-//    @BindView(R.id.toolbar) Toolbar toolbar;
-//    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-//    @BindView(R.id.nav_view) NavigationView navigationView;
 
     private MedicineViewModel medicineViewModel;
     private ActivityMainBinding binding;
     private MedicineAdapter adapter;
 
+
+    //aby móc porównywać kod, w celu wyświetlenia, deklarujemy jeden z nich
     private static final int NEW_MEDICINE = 1;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+
+//    @Override
+    protected View onCreate(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        //ButterKnife.bind(this);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-//        medicineViewModel = new MedicineViewModel();
-//
-//        binding.setMedicineViewModel(medicineViewModel);
 
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-                //intent.putExtra(EditorActivity.MEDICINE_DATA, new Medicine("Vit C", 10, 20, 1, new byte[0]));
-                //startActivity(intent);
+            // co to robi?
                 startActivityForResult(intent, NEW_MEDICINE);
             }
         });
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, binding.drawerLayout, binding.appBarMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         binding.navView.setNavigationItemSelectedListener(this);
 
-        //todo tymczasowe tworzenie listy
-        /*List<Medicine> medicines = new ArrayList<>();
-        medicines.add(new Medicine("Vit A", 10, 20, 1, new byte[0]));
-        medicines.add(new Medicine("Vit B", 10, 20, 1, new byte[0]));
-        medicines.add(new Medicine("Vit C", 10, 20, 1, new byte[0]));*/
+        // zaladuj ArrayList do adaptera i wywolaj loadData
         adapter = new MedicineAdapter(new ArrayList<>());
         loadData();
 
-        RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;//.findViewById(R.id.myRecyclerView);
+        RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-    }
 
+        RecyclerViewClickListener listener = (view, position) -> {
+            Toast.makeText(this, "Position " + position, Toast.LENGTH_SHORT).show();
+        };
+
+        View v = inflater.inflate(R.layout.content_main, container, false);
+        MedicineAdapter medicineAdapter = new MedicineAdapter(listener);
+        rv.setAdapter(medicineAdapter);
+        return v;
+}
+
+
+    //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData
+    //po co drugi raz skoro wywoływalismy w 67 linii?
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == NEW_MEDICINE){
@@ -96,12 +94,8 @@ public class MainActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        loadData();
-    }*/
 
+    //pobieram "kontakt" do MedicineService, zaladowuje liste medicines za pomoca getAllMedicine i wywoluje update
     private void loadData(){
         //todo move to view model like in EditorActivity
         MedicineService service = getMedicineApp().getMedicineService();
@@ -111,7 +105,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -147,7 +140,6 @@ public class MainActivity extends BaseActivity
 
         }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

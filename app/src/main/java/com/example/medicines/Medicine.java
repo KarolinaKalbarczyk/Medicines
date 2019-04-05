@@ -7,13 +7,12 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-
+// po co nam Serializable?
 @Entity
 public class Medicine implements Serializable {
-    @PrimaryKey(autoGenerate = true)    //TODO jesli chcesz zeby id w bazie denerowalo sie samo, trzeba dodac autoDenerate = true
+    @PrimaryKey(autoGenerate = true)    //TODO jesli chcesz zeby id w bazie generowalo sie samo, trzeba dodac autoGenerate = true
     public int uid;
 
-    //jeśli z mXxxxx, to raczej nie public; jeśli mXxxx to @ColumnInfo
     @ColumnInfo(name = "name")
     public String mName;
 
@@ -30,6 +29,7 @@ public class Medicine implements Serializable {
     public byte[] mImage;
 
     public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
