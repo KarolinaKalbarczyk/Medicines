@@ -15,21 +15,15 @@
  */
 package com.example.medicines;
 
-import android.app.LoaderManager;
-import android.content.DialogInterface;
+
 import android.content.Intent;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
@@ -90,6 +84,7 @@ public class EditorActivity extends BaseActivity {
         } else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
     }
+
 
     // menu
 

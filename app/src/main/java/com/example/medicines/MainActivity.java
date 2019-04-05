@@ -5,24 +5,22 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,9 +36,10 @@ public class MainActivity extends BaseActivity
 
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+//    @Override
+    protected View onCreate(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
@@ -72,7 +71,16 @@ public class MainActivity extends BaseActivity
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-    }
+        RecyclerViewClickListener listener = (view, position) -> {
+            Toast.makeText(this, "Position " + position, Toast.LENGTH_SHORT).show();
+        };
+
+        View v = inflater.inflate(R.layout.content_main, container, false);
+        MedicineAdapter medicineAdapter = new MedicineAdapter(listener);
+        rv.setAdapter(medicineAdapter);
+        return v;
+}
+
 
     //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData
     //po co drugi raz skoro wywoływalismy w 67 linii?
@@ -85,6 +93,7 @@ public class MainActivity extends BaseActivity
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
     //pobieram "kontakt" do MedicineService, zaladowuje liste medicines za pomoca getAllMedicine i wywoluje update
     private void loadData(){

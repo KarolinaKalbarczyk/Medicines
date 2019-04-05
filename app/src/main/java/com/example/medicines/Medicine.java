@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
-
+// po co nam Serializable?
 @Entity
 public class Medicine implements Serializable {
     @PrimaryKey(autoGenerate = true)    //TODO jesli chcesz zeby id w bazie generowalo sie samo, trzeba dodac autoGenerate = true
