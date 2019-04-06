@@ -4,11 +4,10 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-//ta klasa jest niepotrzebna
-//public class MedicineDAO {
 
     @Dao
     public interface MedicineDao {
@@ -24,7 +23,8 @@ import java.util.List;
 
         @Delete
         void delete(Medicine medicines);
+
+        @Update
+        void update(Medicine... medicines);
     }
 
-
-//}

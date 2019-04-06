@@ -14,7 +14,16 @@ public class MedicineService {
         medicineDb.medicineDAO().insertAll(medicine);
     }
 
+//    public void updateMedicine(Medicine medicine){
+//        medicineDb.medicineDAO().updateMedicine(medicine);
+//    }
+
     public List<Medicine> getAllMedicine(){
         return medicineDb.medicineDAO().getAll();
     }
+
+    public void updateMedicine(String name, int times, int quantity, int oneDose, byte[] image) {
+        medicineDb.medicineDAO().update();
+    }
 }
+

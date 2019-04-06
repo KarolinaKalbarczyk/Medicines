@@ -21,25 +21,15 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     private List<Medicine> medicines;
     private RecyclerViewClickListener mListener; // dodaje listenera
 
-    MedicineAdapter(RecyclerViewClickListener listener) {
+    MedicineAdapter(List<Medicine> medicines, RecyclerViewClickListener listener) {
         mListener = listener;
-    }
-
-    public MedicineAdapter(List<Medicine> medicines) {
         this.medicines = medicines;
-    }
-
-
-    public void updateData(List<Medicine> dataset) {
-        medicines.clear();
-        medicines.addAll(dataset);
-        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public MedicineViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_medicine, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_medicine, viewGroup, false);
         return new MedicineViewHolder(v, mListener);
         //return new MedicineViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_medicine, null));
         }
@@ -48,16 +38,11 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     @Override
     public void onBindViewHolder(@NonNull MedicineViewHolder medicineViewHolder, int index) {
 
-        if (medicineViewHolder instanceof MedicineViewHolder) {
-            MedicineViewHolder rowHolder = (MedicineViewHolder) medicineViewHolder;
-            //set values of data here
-        }
-
         Medicine current = medicines.get(index);
         medicineViewHolder.medicineNameView.setText(current.getName());
-//        medicineViewHolder.medicineQuantityView.setText(Integer.toString(current.getQuantity()));
-//        medicineViewHolder.medicineOneDoseView.setText(Integer.toString(current.getOneDose()));
-//        medicineViewHolder.medicineTimesView.setText(Integer.toString(current.getTimes()));
+        medicineViewHolder.medicineQuantityView.setText(Integer.toString(current.getQuantity()));
+        medicineViewHolder.medicineOneDoseView.setText(Integer.toString(current.getOneDose()));
+        medicineViewHolder.medicineTimesView.setText(Integer.toString(current.getTimes()));
     }
 
 
@@ -71,30 +56,28 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         notifyDataSetChanged();
     }
 
+    public Medicine getMedicineByPosition(int position){
+        return medicines.get(position);
+    }
+
     class MedicineViewHolder extends ViewHolder implements View.OnClickListener {
 
         private RecyclerViewClickListener mListener;
 
         TextView medicineNameView;
-//        TextView medicineQuantityView;
-//        TextView medicineTimesView;
-//        TextView medicineOneDoseView;
+        TextView medicineQuantityView;
+        TextView medicineTimesView;
+        TextView medicineOneDoseView;
 
-        MedicineViewHolder(View v, RecyclerViewClickListener listener) {
+        MedicineViewHolder(@NonNull View v, RecyclerViewClickListener listener) {
             super(v);
             mListener = listener;
             v.setOnClickListener(this);
-        }
-
-        public MedicineViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            //dlaczego działa bez tego wykomentowanego?
 
             medicineNameView = itemView.findViewById(R.id.medicineName);
-//            medicineQuantityView = itemView.findViewById(R.id.medicineQuantity);
-//            medicineTimesView = itemView.findViewById(R.id.medicineTimes);
-//            medicineOneDoseView = itemView.findViewById(R.id.medicineOneDose);
+            medicineQuantityView = itemView.findViewById(R.id.medicineQuantity);
+            medicineTimesView = itemView.findViewById(R.id.medicineTimes);
+            medicineOneDoseView = itemView.findViewById(R.id.medicineOneDose);
 
         }
 

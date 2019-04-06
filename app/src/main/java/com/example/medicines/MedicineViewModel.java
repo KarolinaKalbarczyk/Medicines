@@ -73,8 +73,15 @@ public class MedicineViewModel {
             return false;
         }
 
-        service.saveMedicine(new Medicine(name, times, quantity, oneDose, image));
+        if (id != 0) {
+            service.updateMedicine(name, times, quantity, oneDose, image);
+            //return true;
+        } else {
+            service.saveMedicine(new Medicine(name, times, quantity, oneDose, image));
+            //return true;
+        }
         return true;
+
     }
 
 }
