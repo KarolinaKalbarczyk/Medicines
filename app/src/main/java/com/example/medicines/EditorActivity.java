@@ -73,7 +73,7 @@ public class EditorActivity extends BaseActivity {
         }
         binding.setMedicineViewModel(medicineViewModel);
 
-        binding.saveButton.setOnClickListener(view -> saveMedicine());
+        //binding.saveButton.setOnClickListener(view -> saveMedicine());
     }
 
     private void saveMedicine() {

@@ -14,8 +14,8 @@
     <string name="dose">Dose</string>
     <string name="how_many_times_a_day">How many times a day?</string>
     <string name="remind_me">Remind me</string>
-    <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="stay">Stay for</string>
     <string name="how_many_medicines_do_you_have">How many medicines do you have?</string>
     <string name="editor_activity_title_new_medicine">Add new medicine</string>
     <string name="editor_activity_title_edit_medicine">Edit a medicine</string>
@@ -31,6 +31,7 @@
     <string name="times_by_day">Times by day:</string>
     <string name="one_dose">One dose:</string>
     <string name="stack">Stack:</string>
+    <string name="remind">Remind</string>
     <string-array name="time">
         <item>Hours</item>
         <item>Days</item>

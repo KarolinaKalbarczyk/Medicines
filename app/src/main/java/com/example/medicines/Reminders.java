@@ -1,10 +1,10 @@
 package com.example.medicines;
 
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.Toast;
 
+import com.example.medicines.databinding.ActivityEditorBinding;
+
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,9 +34,12 @@ import java.util.TimeZone;
 
 import static java.sql.Types.NULL;
 
+
 public class Reminders extends AppCompatActivity {
     String message;
     String repeatTime;
+    String stayTime;
+    String drop_item2;
     String drop_item;
     String contentText;
     String contentText2;
@@ -45,22 +50,23 @@ public class Reminders extends AppCompatActivity {
     long timestay;
     int id;
     NotificationManager mNotificationManager;
+
+    private ActivityEditorBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
 
         Bundle extras = getIntent().getExtras();
 
-        //String message = "";
-        EditText text = (EditText) findViewById(R.id.title);
-        message = text.getText().toString();
-
-        EditText time =(EditText) findViewById(R.id.everytime);
+        EditText time =(EditText) binding.time;
         repeatTime= time.getText().toString();
-//        SwitchActivity sactivity = new SwitchActivity();
-//        sactivity.onCheckedChanged(simpleSwitch, switchState);
-        Spinner dropdown = (Spinner) findViewById(R.id.spinner);
+
+
+        Spinner dropdown = (Spinner) binding.spinner;
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
 
@@ -72,37 +78,62 @@ public class Reminders extends AppCompatActivity {
 
         drop_item = dropdown.getSelectedItem().toString();
 
+        EditText time2 =(EditText) binding.stay;;
+        stayTime= time2.getText().toString();
 
-        Button b = (Button) findViewById(R.id.button);
 
-        //setReminder(b,repeatTime,drop_item, stayTime, drop_item2);
+
+        Spinner dropdown2 = (Spinner) binding.spinner3;
+        ArrayAdapter<CharSequence> staticAdapter2 = ArrayAdapter
+                .createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        staticAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        dropdown2.setAdapter(staticAdapter2);
+
+        drop_item2= dropdown2.getSelectedItem().toString();
+
+        Button b = (Button) binding.reminder;
+
     }
 
     public void setReminder(View view){
 
-        EditText time =(EditText) findViewById(R.id.everytime);
+        EditText time =(EditText) binding.time;
         repeatTime= time.getText().toString();
 
-
-
-
-//        SwitchActivity sactivity = new SwitchActivity();
-//        sactivity.onCheckedChanged(simpleSwitch, switchState);
-            /*Spinner dropdown = (Spinner) findViewById(R.id.spinner);
-            ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-                    .createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
-
-            // Specify the layout to use when the list of choices appears
-            staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            // Apply the adapter to the spinner
-            dropdown.setAdapter(staticAdapter);*/
-        Spinner dropdown =(Spinner)findViewById(R.id.spinner);
+        Spinner dropdown =(Spinner) binding.spinner;
         drop_item = dropdown.getSelectedItem().toString();
+
+        EditText time2 =(EditText) binding.stay;
+        stayTime= time2.getText().toString();
+
+        Spinner dropdown2 = (Spinner) binding.spinner3;
+        drop_item2= dropdown2.getSelectedItem().toString();
+
 
         Calendar cal= Calendar.getInstance();
 
-        //Date date = new Date(timesys);
+
+        if(drop_item2.equals("Hours"))
+        {timestay=(Long.parseLong(stayTime)*60*60*1000);
+            cal.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));}
+        else if(drop_item2.equals("Days"))
+        {timestay=(Long.parseLong(stayTime)*60*60*24*1000);
+            cal.add(Calendar.DAY_OF_MONTH,Integer.parseInt(stayTime));}
+        else if(drop_item2.equals("Weeks"))
+        {timestay=(Long.parseLong(stayTime)*60*60*1000*24*7);
+            cal.add(Calendar.WEEK_OF_MONTH,Integer.parseInt(stayTime));}
+        else if(drop_item2.equals("Months"))
+        {timestay=(Long.parseLong(stayTime)*60*60*24*1000*30);
+            cal.add(Calendar.MONTH,Integer.parseInt(stayTime));}
+        else
+        {timestay=(Long.parseLong(stayTime)*60*60*24*1000*365);
+            cal.add(Calendar.YEAR,Integer.parseInt(stayTime));}
+
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
 
         timesys=cal.getTimeInMillis();
@@ -130,7 +161,7 @@ public class Reminders extends AppCompatActivity {
                 //timesys=dt.getTime()+(Long.parseLong(stayTime)*60*60*24*1000*365);
                 cal2.add(Calendar.YEAR, Integer.parseInt(repeatTime));
 
-            //Date date = new Date(timesys);
+
             SimpleDateFormat dateFormatter2 = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
 
             timesys2 = cal2.getTimeInMillis();
@@ -138,24 +169,17 @@ public class Reminders extends AppCompatActivity {
             formattedDate2 = dateFormatter2.format(cal2.getTime());
         }
 
-        if(repeatTime.length()!=0){
-            contentText= "Repeat every: "+repeatTime+ " "+ drop_item+" "+"\nNext at: "+formattedDate2;
-            contentText2="\nEnds at: "+formattedDate; }
-        else {contentText ="Ends at: "+formattedDate;
-            contentText2="";}
-
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.drawable.color_mustard_yellow)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText("REMINDER: "+message))
-                        .setContentTitle("REMINDER: "+message)
+                        .setSmallIcon(R.drawable.ic_menu_send)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText("It's time for medicine!"))
+                        .setContentTitle("It's time for medicine!")
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(contentText+" "+contentText2))
                         .setContentText(contentText+" "+contentText2);
 
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);
-        //int mID=1;
 // The stack builder object will contain an artificial back stack for the
 // started Activity.
 // This ensures that navigating backward from the Activity leads out of
@@ -195,7 +219,6 @@ public class Reminders extends AppCompatActivity {
     }
 
 }
-
 
 
 

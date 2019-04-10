@@ -5,11 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-           <variable
-           name="medicineViewModel"
-           type="com.example.medicines.MedicineViewModel" />
 
-        <import type="java.lang.String"/>
+        <variable
+            name="medicineViewModel"
+            type="com.example.medicines.MedicineViewModel" />
+
+        <import type="java.lang.String" />
     </data>
 
 
@@ -179,9 +180,9 @@
                 android:id="@+id/quantity"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="130dp"
                 android:ems="10"
                 android:inputType="number"
                 android:text="@={`` + medicineViewModel.quantity}"
@@ -189,7 +190,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
 
             <TextView
                 android:id="@+id/textView7"
@@ -208,53 +208,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider" />
 
             <EditText
-                android:id="@+id/data"
-                android:layout_width="150dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="8dp"
-                android:ems="10"
-                android:inputType="date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-            <EditText
                 android:id="@+id/time"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="30dp"
+                android:inputType="number"
                 android:ems="10"
-                android:inputType="time"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <EditText
+                android:id="@+id/stay"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:inputType="number"
+                android:ems="10"
                 app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/data" />
+                app:layout_constraintTop_toBottomOf="@+id/time" />
 
             <TextView
                 android:id="@+id/textView10"
-                android:layout_width="235dp"
+                android:layout_width="100dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/date"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="italic"
-                android:typeface="serif"
-                app:layout_constraintEnd_toStartOf="@+id/data"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="235dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/time"
                 android:textAlignment="center"
@@ -263,13 +243,57 @@
                 android:typeface="serif"
                 app:layout_constraintEnd_toStartOf="@+id/time"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/stay"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:typeface="serif"
+                app:layout_constraintEnd_toStartOf="@+id/time"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-            <Button
-                android:id="@+id/saveButton"
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="100dp"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/time"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <Spinner
+                android:id="@+id/spinner3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="save"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="100dp"
+                android:spinnerMode="dropdown"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/stay"
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+            <Button
+                android:id="@+id/reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remind"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView9" />
