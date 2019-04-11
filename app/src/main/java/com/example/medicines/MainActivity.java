@@ -80,12 +80,12 @@ public class MainActivity extends BaseActivity
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void Click(View view){
+    /*public void Click(View view){
 
         Intent intent = new Intent(MainActivity.this, Reminders.class);
         startActivity(intent);
 
-    }
+    }*/
 
     //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData
     //po co drugi raz skoro wywoływalismy w 67 linii?

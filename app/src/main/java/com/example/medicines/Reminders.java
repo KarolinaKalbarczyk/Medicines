@@ -34,7 +34,7 @@ import java.util.TimeZone;
 
 import static java.sql.Types.NULL;
 
-
+//todo DO USUNIECIA
 public class Reminders extends AppCompatActivity {
     String message;
     String repeatTime;
@@ -68,7 +68,7 @@ public class Reminders extends AppCompatActivity {
 
         Spinner dropdown = (Spinner) binding.spinner;
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
-                .createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
+                .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,7 +85,7 @@ public class Reminders extends AppCompatActivity {
 
         Spinner dropdown2 = (Spinner) binding.spinner3;
         ArrayAdapter<CharSequence> staticAdapter2 = ArrayAdapter
-                .createFromResource(this, R.array.time, android.R.layout.simple_spinner_item);
+                .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
         staticAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -95,11 +95,16 @@ public class Reminders extends AppCompatActivity {
 
         drop_item2= dropdown2.getSelectedItem().toString();
 
-        Button b = (Button) binding.reminder;
+        Button reminderButton = (Button) binding.reminder;
+
+        //todo do przeniesienia do EditorActivity
+        reminderButton.setOnClickListener((v) ->{
+            setReminder();
+        });
 
     }
 
-    public void setReminder(View view){
+    public void setReminder(){
 
         EditText time =(EditText) binding.time;
         repeatTime= time.getText().toString();
@@ -137,8 +142,8 @@ public class Reminders extends AppCompatActivity {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
 
         timesys=cal.getTimeInMillis();
-        cal.setTimeInMillis(timesys);
-        formattedDate=dateFormatter.format(cal.getTime());
+        //cal.setTimeInMillis(timesys);
+        ///formattedDate=dateFormatter.format(cal.getTime());
 
         if(repeatTime.length()!=0) {
             Calendar cal2 = Calendar.getInstance();
@@ -169,7 +174,7 @@ public class Reminders extends AppCompatActivity {
             formattedDate2 = dateFormatter2.format(cal2.getTime());
         }
 
-
+        //todo do obsluzenia za pomoca AlarmManager i BroadcastReceiver
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.drawable.ic_menu_send)

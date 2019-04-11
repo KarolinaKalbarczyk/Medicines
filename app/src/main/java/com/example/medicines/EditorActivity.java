@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
@@ -74,6 +76,21 @@ public class EditorActivity extends BaseActivity {
         binding.setMedicineViewModel(medicineViewModel);
 
         //binding.saveButton.setOnClickListener(view -> saveMedicine());
+        setupSpinners();
+    }
+
+    private void setupSpinners(){
+        Spinner dropdown = binding.spinner;
+        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
+                .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        dropdown.setAdapter(staticAdapter);
+
+        //todo dokonczyc setup spinnerow
     }
 
     private void saveMedicine() {

@@ -74,7 +74,7 @@ public class MedicineViewModel {
         }
 
         if (id != 0) {
-            service.updateMedicine(name, times, quantity, oneDose, image);
+            service.updateMedicine(new Medicine(id, name, times, quantity, oneDose, image));
             //return true;
         } else {
             service.saveMedicine(new Medicine(name, times, quantity, oneDose, image));

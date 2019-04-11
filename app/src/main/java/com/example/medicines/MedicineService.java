@@ -22,8 +22,8 @@ public class MedicineService {
         return medicineDb.medicineDAO().getAll();
     }
 
-    public void updateMedicine(String name, int times, int quantity, int oneDose, byte[] image) {
-        medicineDb.medicineDAO().update();
+    public void updateMedicine(Medicine medicine) {
+        medicineDb.medicineDAO().update(medicine);
     }
 }
 

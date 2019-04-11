@@ -2,6 +2,7 @@ package com.example.medicines;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -30,6 +31,16 @@ public class Medicine implements Serializable {
 
     public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image) {
 
+        this.mName = name;
+        this.mTimes = times;
+        this.mQuantity = quantity;
+        this.mOneDose = oneDose;
+        this.mImage = image;
+    }
+
+    @Ignore
+    public Medicine(int id, @NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+        this.uid = id;
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
