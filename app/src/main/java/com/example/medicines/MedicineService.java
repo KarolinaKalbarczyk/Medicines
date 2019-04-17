@@ -22,7 +22,7 @@ public class MedicineService {
         return medicineDb.medicineDAO().getAll();
     }
 
-    //ma byc tak smao jak w DAO, update musi miec jakis argument!
+    //ma byc tak samo jak w DAO, update musi miec jakis argument!
     public void updateMedicine(Medicine medicine) {
         medicineDb.medicineDAO().update(medicine);
     }
