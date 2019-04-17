@@ -32,7 +32,7 @@
     <string name="one_dose">One dose:</string>
     <string name="stack">Stack:</string>
     <string name="remind">Remind</string>
-    <string-array name="time">
+    <string-array name="times">
         <item>Hours</item>
         <item>Days</item>
         <item>Weeks</item>

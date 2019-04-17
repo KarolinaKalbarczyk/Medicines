@@ -25,6 +25,6 @@ import java.util.List;
         void delete(Medicine medicines);
 
         @Update
-        void update(Medicine... medicines);
+        void update(Medicine medicines);
     }
 
