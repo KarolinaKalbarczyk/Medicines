@@ -125,33 +125,16 @@ public class EditorActivity extends BaseActivity {
 //        Spinner dropdown2 = (Spinner) binding.spinner2;
 //        drop_item2= dropdown2.getSelectedItem().toString();
         drop_item2 = binding.spinner2.getSelectedItem().toString();
-        Calendar cal2 = Calendar.getInstance();
-        if (drop_item2.equals("Hours")) {
-            timestay = (Long.parseLong(stayTime) * 60 * 60 * 1000);
-            cal2.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));
-        } else if (drop_item2.equals("Days")) {
-            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000);
-            cal2.add(Calendar.DAY_OF_MONTH, Integer.parseInt(stayTime));
-        } else if (drop_item2.equals("Weeks")) {
-            timestay = (Long.parseLong(stayTime) * 60 * 60 * 1000 * 24 * 7);
-            cal2.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(stayTime));
-        } else if (drop_item2.equals("Months")) {
-            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000 * 30);
-            cal2.add(Calendar.MONTH, Integer.parseInt(stayTime));
-        } else {
-            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000 * 365);
-            cal2.add(Calendar.YEAR, Integer.parseInt(stayTime));
-        }
-        SimpleDateFormat dateFormatter2 = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
-        timesys2 = cal2.getTimeInMillis();
-        cal2.setTimeInMillis(timesys2);
-        formattedDate2 = dateFormatter2.format(cal2.getTime());
+
         Calendar cal = Calendar.getInstance();
-        cal.setLenient(true);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
+        //cal.setLenient(true);
+
+        //SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
         timesys = cal.getTimeInMillis();
-        cal.setTimeInMillis(timesys);
-        formattedDate = dateFormatter.format(cal.getTime());
+        //cal.setTimeInMillis(timesys);
+        //formattedDate = dateFormatter.format(cal.getTime());
+
+
         if (repeatTime.length() != 0) {
 
             if (drop_item.equals("Hours"))
@@ -170,6 +153,32 @@ public class EditorActivity extends BaseActivity {
                 //timesys=dt.getTime()+(Long.parseLong(stayTime)*60*60*24*1000*365);
                 cal.add(Calendar.YEAR, Integer.parseInt(repeatTime));
         }
+
+
+        Calendar cal2 = Calendar.getInstance();
+        //SimpleDateFormat dateFormatter2 = new SimpleDateFormat("MMM dd, yyyy, hh:mm aa");
+        timesys2 = cal2.getTimeInMillis();
+        //cal2.setTimeInMillis(timesys2);
+        //formattedDate2 = dateFormatter2.format(cal2.getTime());
+
+        if (drop_item2.equals("Hours")) {
+            timestay = (Long.parseLong(stayTime) * 60 * 60 * 1000);
+            cal2.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Days")) {
+            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000);
+            cal2.add(Calendar.DAY_OF_MONTH, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Weeks")) {
+            timestay = (Long.parseLong(stayTime) * 60 * 60 * 1000 * 24 * 7);
+            cal2.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Months")) {
+            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000 * 30);
+            cal2.add(Calendar.MONTH, Integer.parseInt(stayTime));
+        } else {
+            timestay = (Long.parseLong(stayTime) * 60 * 60 * 24 * 1000 * 365);
+            cal2.add(Calendar.YEAR, Integer.parseInt(stayTime));
+        }
+
+
         //todo Notyfikacja za pomoca AlarmManager i BroadcastReceiver!
         class SampleBootReceiver extends BroadcastReceiver {
             private AlarmManager alarmMgr;
@@ -181,17 +190,25 @@ public class EditorActivity extends BaseActivity {
                     alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                     intent = new Intent(context, AlarmReceiver.class);
                     alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
                     if (timestay < timesys2) {
-                        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                                SystemClock.elapsedRealtime() + timesys, alarmIntent);
+                        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, timesys, timesys2, alarmIntent); // nie wiem czemu tu timesys2
+//                        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                                SystemClock.elapsedRealtime() + timesys, alarmIntent);
                         // Set the alarm here.
                     }
                 }
+
                 ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
                 PackageManager pm = context.getPackageManager();
                 pm.setComponentEnabledSetting(receiver,
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                         PackageManager.DONT_KILL_APP);
+
+                // If the alarm has been set, cancel it.
+                if (alarmMgr!= null) {
+                    alarmMgr.cancel(alarmIntent);
+                }
             }
         }
     }
@@ -202,6 +219,14 @@ public class EditorActivity extends BaseActivity {
             finish();
         } else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
+    }
+
+    private void deleteBook() {
+        if (medicineViewModel.deleteData()) {
+            setResult(777);
+            finish();
+        } else
+            Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();
     }
 
     // menu

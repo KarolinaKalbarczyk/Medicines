@@ -26,5 +26,9 @@ public class MedicineService {
     public void updateMedicine(Medicine medicine) {
         medicineDb.medicineDAO().update(medicine);
     }
+
+    public void deleteMedicine(Medicine medicine){
+        medicineDb.medicineDAO().delete(medicine);
+    }
 }
 
