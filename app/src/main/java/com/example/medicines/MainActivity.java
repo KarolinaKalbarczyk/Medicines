@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
                 // co to robi?
                 startActivityForResult(intent, NEW_MEDICINE);
-                startActivityForResult(intent, DELETE_MEDICINE);
+                //startActivityForResult(intent, DELETE_MEDICINE);
 
             }
         });
@@ -73,13 +73,13 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
             intent.putExtra(MEDICINE_DATA, adapter.getMedicineByPosition(position));
             startActivityForResult(intent, NEW_MEDICINE);
-            startActivityForResult(intent, DELETE_MEDICINE); // TODO czemu to dwa razy?!
+            //startActivityForResult(intent, DELETE_MEDICINE); // TODO czemu to dwa razy?!
 
         };
         // zaladuj ArrayList do adaptera i wywolaj loadData
         adapter = new MedicineAdapter(new ArrayList<>(), listener);
         loadData();
-        deleteData();
+        //deleteData();
 
         RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;
         rv.setAdapter(adapter);
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity
         }
         if(requestCode == DELETE_MEDICINE){
             if(resultCode == 777){
-                deleteData();
+                loadData();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
