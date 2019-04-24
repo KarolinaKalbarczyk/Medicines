@@ -136,7 +136,10 @@ public class EditorActivity extends BaseActivity {
 
         if (repeatTime.length() != 0) {
 
-            if (drop_item.equals("Hours")) {
+            if (drop_item.equals("Minutes")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 1000);
+                firstAlarmDate.add(Calendar.MINUTE, Integer.parseInt(repeatTime));
+            } else if (drop_item.equals("Hours")) {
                 interval = (Long.parseLong(repeatTime) * 60 * 60 * 1000);
                 firstAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(repeatTime));
             } else if (drop_item.equals("Days")) {
@@ -159,7 +162,9 @@ public class EditorActivity extends BaseActivity {
 
         Calendar endAlarmDate = Calendar.getInstance();
 
-        if (drop_item2.equals("Hours")) {
+        if (drop_item2.equals("Minutes")) {
+            endAlarmDate.add(Calendar.MINUTE, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Hours")) {
             endAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));
         } else if (drop_item2.equals("Days")) {
             endAlarmDate.add(Calendar.DAY_OF_MONTH, Integer.parseInt(stayTime));
@@ -192,7 +197,7 @@ public class EditorActivity extends BaseActivity {
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
     }
 
-    private void deleteBook() {
+    private void deleteMedicine() {
         if (medicineViewModel.deleteData()) {
             setResult(777);
             finish();
@@ -217,6 +222,7 @@ public class EditorActivity extends BaseActivity {
                 saveMedicine();
                 return true;
             case R.id.action_delete:
+                deleteMedicine(); // czemu nie widac od razu tylko trzeba odswiezyc recznie?
                 return true;
         }
         return super.onOptionsItemSelected(item);

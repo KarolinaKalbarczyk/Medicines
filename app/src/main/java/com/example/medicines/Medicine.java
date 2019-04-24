@@ -30,23 +30,51 @@ public class Medicine implements Serializable {
     @ColumnInfo(name = "image")
     public byte[] mImage;
 
+    @ColumnInfo(name = "repeateTime")
+    public int mRepeatTime;
+
+    @ColumnInfo(name = "stayTime")
+    public int mStayTime;
+
+    @ColumnInfo(name = "firstAlarmTimeInMilis")
+    public int mFirstAlarmTimeInMilis;
+
+    @ColumnInfo(name = "endAlarmTimeInMilis")
+    public int mEndAlarmTimeInMilis;
+
+    @ColumnInfo(name = "interval")
+    public int mInterval;
+
+
     //tworzymy dwa aby jeden był dla nowego rekordu a drugi dla istniejacego, do edycji, posiadajacy uid <-- to ten nizej!
-    public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+    public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image, int repeatTime,
+                    int stayTime, int firstAlarmTimeInMilis, int endAlarmTimeInMilis, int interval) {
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
         this.mOneDose = oneDose;
         this.mImage = image;
+        this.mRepeatTime = repeatTime;
+        this.mStayTime = stayTime;
+        this.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
+        this.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
+        this.mInterval = interval;
     }
 
     @Ignore
-    public Medicine(int id, @NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+    public Medicine(int id, @NonNull String name, int times, int quantity, int oneDose, byte[] image,
+                    int repeatTime, int stayTime, int firstAlarmTimeInMilis, int endAlarmTimeInMilis, int interval) {
         this.uid = id;
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
         this.mOneDose = oneDose;
         this.mImage = image;
+        this.mRepeatTime = repeatTime;
+        this.mStayTime = stayTime;
+        this.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
+        this.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
+        this.mInterval = interval;
     }
 
     public int getUid() {
@@ -71,6 +99,26 @@ public class Medicine implements Serializable {
 
     public byte[] getImage() {
         return this.mImage;
+    }
+
+    public int getRepeatTime() {
+        return this.mRepeatTime;
+    }
+
+    public int getStayTime() {
+        return this.mStayTime;
+    }
+
+    public int getFirstAlarmTimeInMilis() {
+        return this.mFirstAlarmTimeInMilis;
+    }
+
+    public int getEndAlarmTimeInMilis() {
+        return this.mEndAlarmTimeInMilis;
+    }
+
+    public int getInterval() {
+        return this.mInterval;
     }
 
 }

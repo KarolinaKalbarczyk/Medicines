@@ -1,17 +1,12 @@
 package com.example.medicines;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.*;
@@ -31,7 +26,6 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     public MedicineViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_medicine, viewGroup, false);
         return new MedicineViewHolder(v, mListener);
-        //return new MedicineViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_medicine, null));
         }
 
 
@@ -40,9 +34,14 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
 
         Medicine current = medicines.get(index);
         medicineViewHolder.medicineNameView.setText(current.getName());
-        medicineViewHolder.medicineQuantityView.setText(Integer.toString(current.getQuantity()));
-        medicineViewHolder.medicineOneDoseView.setText(Integer.toString(current.getOneDose()));
-        medicineViewHolder.medicineTimesView.setText(Integer.toString(current.getTimes()));
+        medicineViewHolder.medicineQuantityView.setText(current.getQuantity());
+        medicineViewHolder.medicineOneDoseView.setText(current.getOneDose());
+        medicineViewHolder.medicineTimesView.setText(current.getTimes());
+        medicineViewHolder.medicineRepeatTime.setText(current.getRepeatTime());
+        medicineViewHolder.medicineStayTime.setText(current.getStayTime());
+        medicineViewHolder.medicineFirstAlarmTimeInMilis.setText(current.getFirstAlarmTimeInMilis());
+        medicineViewHolder.medicineEndAlarmTimeInMilis.setText(current.getEndAlarmTimeInMilis());
+        medicineViewHolder.medicineInterval.setText(current.getInterval());
     }
 
 
@@ -68,6 +67,11 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         TextView medicineQuantityView;
         TextView medicineTimesView;
         TextView medicineOneDoseView;
+        TextView medicineRepeatTime;
+        TextView medicineStayTime;
+        TextView medicineFirstAlarmTimeInMilis;
+        TextView medicineEndAlarmTimeInMilis;
+        TextView medicineInterval;
 
         MedicineViewHolder(@NonNull View v, RecyclerViewClickListener listener) {
             super(v);
@@ -78,6 +82,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             medicineQuantityView = itemView.findViewById(R.id.medicineQuantity);
             medicineTimesView = itemView.findViewById(R.id.medicineTimes);
             medicineOneDoseView = itemView.findViewById(R.id.medicineOneDose);
+            medicineRepeatTime = itemView.findViewById(R.id.time);
+            medicineStayTime = itemView.findViewById(R.id.stay);
 
         }
 

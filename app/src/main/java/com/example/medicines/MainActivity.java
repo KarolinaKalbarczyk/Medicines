@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity
         if(requestCode == DELETE_MEDICINE){
             if(resultCode == 777){
                 loadData(); // rekord usunięty w innej klasie wiec teraz tylko odwiezyc widok
-                //TODO gdzie był usunięty ten rekord? W MedicineViewModel czy w MedicineService?
+                //TODO gdzie był usunięty ten rekord? W MedicineViewModel czy w MedicineService? Czemu nie znika tylko trzeba odswieżyć?
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
