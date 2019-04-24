@@ -19,11 +19,11 @@ public class MedicineViewModel {
 
     public byte[] image = new byte[0];
 
-    public MedicineViewModel(MedicineService service){
+    public MedicineViewModel(MedicineService service) {
         this.service = service;
     }
 
-    public MedicineViewModel(MedicineService service, Medicine medicine){
+    public MedicineViewModel(MedicineService service, Medicine medicine) {
         this.service = service;
 
         id = medicine.getUid();
@@ -36,6 +36,7 @@ public class MedicineViewModel {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -51,6 +52,7 @@ public class MedicineViewModel {
     public int getQuantity() {
         return quantity;
     }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
@@ -58,13 +60,14 @@ public class MedicineViewModel {
     public int getOneDose() {
         return oneDose;
     }
+
     public void setOneDose(int oneDose) {
         this.oneDose = oneDose;
     }
 
     //zapisywanie danych o leku
 
-    public boolean saveData(){
+    public boolean saveData() {
         if (TextUtils.isEmpty(name)) {
             return false;
         }
@@ -75,13 +78,19 @@ public class MedicineViewModel {
 
         if (id != 0) {
             service.updateMedicine(new Medicine(id, name, times, quantity, oneDose, image));
-            //return true;
         } else {
             service.saveMedicine(new Medicine(name, times, quantity, oneDose, image));
-            //return true;
         }
         return true;
 
     }
 
+    public boolean deleteData() {
+        if (id == 0) {
+            return false;
+        } else {
+            service.deleteMedicine(new Medicine(id, name, times, quantity, oneDose, image));
+        }
+        return true;
+    }
 }

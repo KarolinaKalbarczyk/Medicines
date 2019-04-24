@@ -16,6 +16,8 @@ import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
 
+//DO USUNIECIA CALA KLASA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 public class SwitchActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 

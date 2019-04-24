@@ -29,8 +29,18 @@ public class Medicine implements Serializable {
     @ColumnInfo(name = "image")
     public byte[] mImage;
 
+    //tworzymy dwa aby jeden był dla nowego rekordu a drugi dla istniejacego, do edycji, posiadajacy uid <-- to ten nizej!
     public Medicine(@NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+        this.mName = name;
+        this.mTimes = times;
+        this.mQuantity = quantity;
+        this.mOneDose = oneDose;
+        this.mImage = image;
+    }
 
+    @Ignore
+    public Medicine(int id, @NonNull String name, int times, int quantity, int oneDose, byte[] image) {
+        this.uid = id;
         this.mName = name;
         this.mTimes = times;
         this.mQuantity = quantity;
@@ -73,7 +83,4 @@ public class Medicine implements Serializable {
     }
 
 }
-
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    private byte[] image;
 

@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -15,8 +16,8 @@
  */
 package com.example.medicines;
 
-
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,27 +26,24 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.medicines.databinding.ActivityEditorBinding;
 
+import java.util.Calendar;
 
 public class EditorActivity extends BaseActivity {
 
-    private MedicineViewModel medicineViewModel;
 
-    private static final int EXISTING_MEDICINE_LOADER = 0;
-
-    private Uri mCurrentMedicineUri;
-
-    private boolean mMedicineHasChanged = false;
-
-    private ActivityEditorBinding binding;
-
-    public static final String MEDICINE_DATA = "data_medicine";
-
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+    public static final  String                MEDICINE_DATA            = "data_medicine";
+    private static final int                   EXISTING_MEDICINE_LOADER = 0;
+    private              MedicineViewModel     medicineViewModel;
+    private              Uri                   mCurrentMedicineUri;
+    private              boolean               mMedicineHasChanged      = false;
+    private              ActivityEditorBinding binding;
+    private              View.OnTouchListener  mTouchListener           = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mMedicineHasChanged = true;
@@ -53,17 +51,14 @@ public class EditorActivity extends BaseActivity {
         }
     };
 
+    private AlarmReceiver receiver = new AlarmReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_editor);
-
         Intent intent = getIntent();
         Medicine med = (Medicine) intent.getSerializableExtra(MEDICINE_DATA);
-
-
         //TU SPRAWDZAMY CZY NOWY LEK CZY EDYCJA
         if (med == null) {
             setTitle(getString(R.string.editor_activity_title_new_medicine));
@@ -74,37 +69,167 @@ public class EditorActivity extends BaseActivity {
             medicineViewModel = new MedicineViewModel(getMedicineApp().getMedicineService(), med);
         }
         binding.setMedicineViewModel(medicineViewModel);
-
         //binding.saveButton.setOnClickListener(view -> saveMedicine());
+        //
         setupSpinners();
     }
 
-    private void setupSpinners(){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(receiver, new IntentFilter("com.example.medicine.new_alarm"));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (receiver != null)
+            unregisterReceiver(receiver);
+    }
+
+    private void setupSpinners() {
         Spinner dropdown = binding.spinner;
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
-
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // Apply the adapter to the spinner
         dropdown.setAdapter(staticAdapter);
-
         //todo dokonczyc setup spinnerow
+        Spinner dropdown2 = binding.spinner2;
+        ArrayAdapter<CharSequence> staticAdapter2 = ArrayAdapter
+                .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        staticAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        dropdown2.setAdapter(staticAdapter);
+        Button reminderButton = (Button) binding.reminder;
+        //todo do przeniesienia do EditorActivity
+        reminderButton.setOnClickListener((v) -> {
+            setReminder();
+        });
     }
 
-    private void saveMedicine() {
+    public void setReminder() {
+        String repeatTime;
+        String stayTime;
+        String drop_item2;
+        String drop_item;
+        long firstAlarmTimeInMilis;
+        long interval = 0;
+        long endAlarmDateInMilis;
 
-        if(medicineViewModel.saveData()) {  //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
+        repeatTime = binding.time.getText().toString();
+        drop_item = binding.spinner.getSelectedItem().toString();
+        stayTime = binding.stay.getText().toString();
+        drop_item2 = binding.spinner2.getSelectedItem().toString();
+
+        Calendar firstAlarmDate = Calendar.getInstance();
+
+        if (repeatTime.length() != 0) {
+
+            if (drop_item.equals("Hours")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 60 * 1000);
+                firstAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(repeatTime));
+            } else if (drop_item.equals("Days")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 60 * 24 * 1000);
+                firstAlarmDate.add(Calendar.DAY_OF_MONTH, Integer.parseInt(repeatTime));
+            } else if (drop_item.equals("Weeks")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 60 * 1000 * 24 * 7);
+                firstAlarmDate.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(repeatTime));
+            } else if (drop_item.equals("Months")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 60 * 24 * 1000 * 30);
+                firstAlarmDate.add(Calendar.MONTH, Integer.parseInt(repeatTime));
+            } else {
+                interval = (Long.parseLong(repeatTime) * 60 * 60 * 24 * 1000 * 365);
+                firstAlarmDate.add(Calendar.YEAR, Integer.parseInt(repeatTime));
+            }
+        }
+        firstAlarmTimeInMilis = firstAlarmDate.getTimeInMillis();
+
+        Calendar endAlarmDate = Calendar.getInstance();
+
+        if (drop_item2.equals("Hours")) {
+            endAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Days")) {
+            endAlarmDate.add(Calendar.DAY_OF_MONTH, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Weeks")) {
+            endAlarmDate.add(Calendar.WEEK_OF_MONTH, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Months")) {
+            endAlarmDate.add(Calendar.MONTH, Integer.parseInt(stayTime));
+        } else {
+            endAlarmDate.add(Calendar.YEAR, Integer.parseInt(stayTime));
+        }
+        endAlarmDateInMilis = endAlarmDate.getTimeInMillis();
+
+        getSharedPreferences("Medicine", 0)
+                .edit()
+                .putLong("firstAlarmTimeInMilis", firstAlarmTimeInMilis)
+                .putLong("endAlarmDateInMilis", endAlarmDateInMilis)
+                .putLong("interval", interval)
+                .apply();
+
+        sendBroadcast(new Intent("com.example.medicine.new_alarm"));
+
+    }
+
+    //todo Notyfikacja za pomoca AlarmManager i BroadcastReceiver!
+    /*class SampleBootReceiver extends BroadcastReceiver {
+        private AlarmManager alarmMgr;
+        private PendingIntent alarmIntent;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+                alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                //intent = new Intent(context, AlarmReceiver.class);
+                //alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+                alarmIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
+
+                Calendar currentDate = Calendar.getInstance();
+                long firstAlarmTimeInMilis = getSharedPreferences("Medicine", 0).getLong("firstAlarmTimeInMilis", 0);
+                long endAlarmDateInMilis = getSharedPreferences("Medicine", 0).getLong("endAlarmDateInMilis", 0);
+                long interval = getSharedPreferences("Medicine", 0).getLong("interval", 0);
+
+                if (currentDate.getTimeInMillis() < endAlarmDateInMilis) {
+                    alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, firstAlarmTimeInMilis, interval, alarmIntent); // nie wiem czemu tu timesys2 - trzeba uzyc repeatTime
+//                        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                                SystemClock.elapsedRealtime() + timesys, alarmIntent);
+                    // Set the alarm here.
+                }
+            }
+
+           *//* ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
+            PackageManager pm = context.getPackageManager();
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);*//*
+
+            // If the alarm has been set, cancel it.
+            *//*if (alarmMgr!= null) {
+                alarmMgr.cancel(alarmIntent);
+            }*//*
+        }
+    }*/
+
+    private void saveMedicine() {
+        if (medicineViewModel.saveData()) {  //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
             setResult(666); //ustawienie przykladowego kodu wyniku, który będzie porównywany
             finish();
         } else
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
     }
 
+    private void deleteBook() {
+        if (medicineViewModel.deleteData()) {
+            setResult(777);
+            finish();
+        } else
+            Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();
+    }
 
     // menu
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (medicineViewModel.id != 0)
@@ -125,5 +250,4 @@ public class EditorActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

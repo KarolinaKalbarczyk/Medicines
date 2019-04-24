@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity
 
     //aby móc porównywać kod, w celu wyświetlenia, deklarujemy jeden z nich
     private static final int NEW_MEDICINE = 1;
+    private static final int DELETE_MEDICINE = 2;
 
 
 
@@ -55,6 +56,8 @@ public class MainActivity extends BaseActivity
                 Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
                 // co to robi?
                 startActivityForResult(intent, NEW_MEDICINE);
+                //startActivityForResult(intent, DELETE_MEDICINE);
+
             }
         });
 
@@ -70,22 +73,19 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
             intent.putExtra(MEDICINE_DATA, adapter.getMedicineByPosition(position));
             startActivityForResult(intent, NEW_MEDICINE);
+            //startActivityForResult(intent, DELETE_MEDICINE); // TODO czemu to dwa razy?!
+
         };
         // zaladuj ArrayList do adaptera i wywolaj loadData
         adapter = new MedicineAdapter(new ArrayList<>(), listener);
         loadData();
+        //deleteData();
 
         RecyclerView rv = binding.appBarMain.contentMain.myRecyclerView;
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    /*public void Click(View view){
-
-        Intent intent = new Intent(MainActivity.this, Reminders.class);
-        startActivity(intent);
-
-    }*/
 
     //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData
     //po co drugi raz skoro wywoływalismy w 67 linii?
@@ -93,6 +93,11 @@ public class MainActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == NEW_MEDICINE){
             if(resultCode == 666){
+                loadData();
+            }
+        }
+        if(requestCode == DELETE_MEDICINE){
+            if(resultCode == 777){
                 loadData();
             }
         }

@@ -18,6 +18,7 @@ import java.util.List;
         @Query("SELECT * FROM Medicine ORDER BY name")
         List<Medicine> loadAllByName();
 
+
         @Insert
         void insertAll(Medicine... medicines);
 
@@ -25,6 +26,6 @@ import java.util.List;
         void delete(Medicine medicines);
 
         @Update
-        void update(Medicine medicine);
+        void update(Medicine medicines);
     }
 
