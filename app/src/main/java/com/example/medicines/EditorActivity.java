@@ -16,8 +16,14 @@
  */
 package com.example.medicines;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,13 +43,13 @@ import java.util.Calendar;
 public class EditorActivity extends BaseActivity {
 
 
-    public static final  String                MEDICINE_DATA            = "data_medicine";
-    private static final int                   EXISTING_MEDICINE_LOADER = 0;
-    private              MedicineViewModel     medicineViewModel;
-    private              Uri                   mCurrentMedicineUri;
-    private              boolean               mMedicineHasChanged      = false;
-    private              ActivityEditorBinding binding;
-    private              View.OnTouchListener  mTouchListener           = new View.OnTouchListener() {
+    public static final String MEDICINE_DATA = "data_medicine";
+    private static final int EXISTING_MEDICINE_LOADER = 0;
+    private MedicineViewModel medicineViewModel;
+    private Uri mCurrentMedicineUri;
+    private boolean mMedicineHasChanged = false;
+    private ActivityEditorBinding binding;
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mMedicineHasChanged = true;
@@ -74,6 +80,7 @@ public class EditorActivity extends BaseActivity {
         setupSpinners();
     }
 
+    //musimu zarejestrowac i odrejestrowac receiver!
     @Override
     protected void onStart() {
         super.onStart();
@@ -96,6 +103,7 @@ public class EditorActivity extends BaseActivity {
         // Apply the adapter to the spinner
         dropdown.setAdapter(staticAdapter);
         //todo dokonczyc setup spinnerow
+
         Spinner dropdown2 = binding.spinner2;
         ArrayAdapter<CharSequence> staticAdapter2 = ArrayAdapter
                 .createFromResource(this, R.array.times, android.R.layout.simple_spinner_item);
@@ -103,8 +111,8 @@ public class EditorActivity extends BaseActivity {
         staticAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         dropdown2.setAdapter(staticAdapter);
+
         Button reminderButton = (Button) binding.reminder;
-        //todo do przeniesienia do EditorActivity
         reminderButton.setOnClickListener((v) -> {
             setReminder();
         });
@@ -128,7 +136,10 @@ public class EditorActivity extends BaseActivity {
 
         if (repeatTime.length() != 0) {
 
-            if (drop_item.equals("Hours")) {
+            if (drop_item.equals("Minutes")) {
+                interval = (Long.parseLong(repeatTime) * 60 * 1000);
+                firstAlarmDate.add(Calendar.MINUTE, Integer.parseInt(repeatTime));
+            } else if (drop_item.equals("Hours")) {
                 interval = (Long.parseLong(repeatTime) * 60 * 60 * 1000);
                 firstAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(repeatTime));
             } else if (drop_item.equals("Days")) {
@@ -145,11 +156,15 @@ public class EditorActivity extends BaseActivity {
                 firstAlarmDate.add(Calendar.YEAR, Integer.parseInt(repeatTime));
             }
         }
+
         firstAlarmTimeInMilis = firstAlarmDate.getTimeInMillis();
+
 
         Calendar endAlarmDate = Calendar.getInstance();
 
-        if (drop_item2.equals("Hours")) {
+        if (drop_item2.equals("Minutes")) {
+            endAlarmDate.add(Calendar.MINUTE, Integer.parseInt(stayTime));
+        } else if (drop_item2.equals("Hours")) {
             endAlarmDate.add(Calendar.HOUR_OF_DAY, Integer.parseInt(stayTime));
         } else if (drop_item2.equals("Days")) {
             endAlarmDate.add(Calendar.DAY_OF_MONTH, Integer.parseInt(stayTime));
@@ -160,6 +175,7 @@ public class EditorActivity extends BaseActivity {
         } else {
             endAlarmDate.add(Calendar.YEAR, Integer.parseInt(stayTime));
         }
+
         endAlarmDateInMilis = endAlarmDate.getTimeInMillis();
 
         getSharedPreferences("Medicine", 0)
@@ -173,46 +189,6 @@ public class EditorActivity extends BaseActivity {
 
     }
 
-    //todo Notyfikacja za pomoca AlarmManager i BroadcastReceiver!
-    /*class SampleBootReceiver extends BroadcastReceiver {
-        private AlarmManager alarmMgr;
-        private PendingIntent alarmIntent;
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-                alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                //intent = new Intent(context, AlarmReceiver.class);
-                //alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-                alarmIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
-
-                Calendar currentDate = Calendar.getInstance();
-                long firstAlarmTimeInMilis = getSharedPreferences("Medicine", 0).getLong("firstAlarmTimeInMilis", 0);
-                long endAlarmDateInMilis = getSharedPreferences("Medicine", 0).getLong("endAlarmDateInMilis", 0);
-                long interval = getSharedPreferences("Medicine", 0).getLong("interval", 0);
-
-                if (currentDate.getTimeInMillis() < endAlarmDateInMilis) {
-                    alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, firstAlarmTimeInMilis, interval, alarmIntent); // nie wiem czemu tu timesys2 - trzeba uzyc repeatTime
-//                        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                                SystemClock.elapsedRealtime() + timesys, alarmIntent);
-                    // Set the alarm here.
-                }
-            }
-
-           *//* ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
-            PackageManager pm = context.getPackageManager();
-            pm.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP);*//*
-
-            // If the alarm has been set, cancel it.
-            *//*if (alarmMgr!= null) {
-                alarmMgr.cancel(alarmIntent);
-            }*//*
-        }
-    }*/
-
     private void saveMedicine() {
         if (medicineViewModel.saveData()) {  //TODO saveData() moze zamiast boolean zwracac np enum z konkretnym bledem
             setResult(666); //ustawienie przykladowego kodu wyniku, który będzie porównywany
@@ -221,7 +197,7 @@ public class EditorActivity extends BaseActivity {
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();    // TODO jesli mamy enum z konkretnym bledem, mozemy wyswietlac rozny tekst w Toast
     }
 
-    private void deleteBook() {
+    private void deleteMedicine() {
         if (medicineViewModel.deleteData()) {
             setResult(777);
             finish();
@@ -246,6 +222,7 @@ public class EditorActivity extends BaseActivity {
                 saveMedicine();
                 return true;
             case R.id.action_delete:
+                deleteMedicine(); // czemu nie widac od razu tylko trzeba odswiezyc recznie?
                 return true;
         }
         return super.onOptionsItemSelected(item);

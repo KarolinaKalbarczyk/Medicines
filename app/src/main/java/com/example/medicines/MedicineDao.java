@@ -18,7 +18,6 @@ import java.util.List;
         @Query("SELECT * FROM Medicine ORDER BY name")
         List<Medicine> loadAllByName();
 
-
         @Insert
         void insertAll(Medicine... medicines);
 
