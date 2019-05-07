@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity
 
     //aby móc porównywać kod, w celu wyświetlenia, deklarujemy jeden z nich
     private static final int NEW_MEDICINE = 1;
-    private static final int DELETE_MEDICINE = 2;
+    private static final int EDIT_MEDICINE = 2;
 
 
     @Override
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity
             //Toast.makeText(this, "Position " + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
             intent.putExtra(MEDICINE_DATA, adapter.getMedicineByPosition(position));
-            startActivityForResult(intent, NEW_MEDICINE);
+            startActivityForResult(intent, EDIT_MEDICINE);
 
         };
         // zaladuj ArrayList do adaptera i wywolaj loadData
@@ -90,8 +90,8 @@ public class MainActivity extends BaseActivity
                 loadData();
             }
         }
-        if(requestCode == DELETE_MEDICINE){
-            if(resultCode == 777){
+        else if(requestCode == EDIT_MEDICINE) {
+            if (resultCode == 777) {
                 loadData(); // rekord usunięty w innej klasie wiec teraz tylko odwiezyc widok
                 //TODO gdzie był usunięty ten rekord? W MedicineViewModel czy w MedicineService? Czemu nie znika tylko trzeba odswieżyć?
             }

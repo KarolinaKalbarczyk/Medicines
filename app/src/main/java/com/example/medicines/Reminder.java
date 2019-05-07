@@ -3,20 +3,19 @@ package com.example.medicines;
 import android.arch.persistence.room.ColumnInfo;
 
 public class Reminder {
-
     @ColumnInfo(name = "repeateTime")
-    public int mRepeatTime;
+    public Integer mRepeatTime;
 
     @ColumnInfo(name = "stayTime")
-    public int mStayTime;
+    public Integer mStayTime;
 
     @ColumnInfo(name = "firstAlarmTimeInMilis")
-    public int mFirstAlarmTimeInMilis;
+    public Integer mFirstAlarmTimeInMilis;
 
     @ColumnInfo(name = "endAlarmTimeInMilis")
-    public int mEndAlarmTimeInMilis;
+    public Integer mEndAlarmTimeInMilis;
 
     @ColumnInfo(name = "interval")
-    public int mInterval;
+    public Integer mInterval;
 
 }
