@@ -33,6 +33,7 @@
     <string name="stack">Stack:</string>
     <string name="remind">Remind</string>
     <string-array name="times">
+        <item>Minutes</item>
         <item>Hours</item>
         <item>Days</item>
         <item>Weeks</item>

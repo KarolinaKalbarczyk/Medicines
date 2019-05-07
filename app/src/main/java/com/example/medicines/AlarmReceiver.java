@@ -5,16 +5,18 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private AlarmManager  alarmMgr;
+    private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED") || intent.getAction().equals("com.example.medicine.new_alarm")) {
             alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             //intent = new Intent(context, AlarmReceiver.class);
@@ -30,30 +32,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             if (currentDate.getTimeInMillis() < endAlarmDateInMilis) {
                 alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, firstAlarmTimeInMilis, interval, alarmIntent); // nie wiem czemu tu timesys2 - trzeba uzyc repeatTime
-//                        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                                SystemClock.elapsedRealtime() + timesys, alarmIntent);
-                // Set the alarm here.
+
             }
         }
+    }}
 
-           /* ComponentName receiver = new ComponentName(context, SampleBootReceiver.class);
-            PackageManager pm = context.getPackageManager();
-            pm.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP);*/
-
-        // If the alarm has been set, cancel it.
-            /*if (alarmMgr!= null) {
-                alarmMgr.cancel(alarmIntent);
-            }*/
-    }
-
-    /*@Override
-    public void onReceive(Context context, Intent intent) {
-        // TODO Auto-generated method stub
-
-        Toast.makeText(context, "OnReceive alarm test", Toast.LENGTH_SHORT).show();
-    }*/
-}
 
 

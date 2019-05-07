@@ -27,6 +27,7 @@ public class MedicineService {
         medicineDb.medicineDAO().update(medicine);
     }
 
+    //aby móc usunąć rekord
     public void deleteMedicine(Medicine medicine){
         medicineDb.medicineDAO().delete(medicine);
     }
