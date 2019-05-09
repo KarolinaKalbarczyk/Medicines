@@ -37,6 +37,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         medicineViewHolder.medicineQuantityView.setText(String.valueOf(current.getQuantity()));
         medicineViewHolder.medicineOneDoseView.setText(String.valueOf(current.getOneDose()));
         medicineViewHolder.medicineTimesView.setText(String.valueOf(current.getTimes()));
+        medicineViewHolder.medicineStayTime.setText(String.valueOf(current.getStayTime()));
+        medicineViewHolder.medicineRepeatTime.setText(String.valueOf(current.getRepeatTime()));
     }
 
 
@@ -62,6 +64,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         TextView medicineQuantityView;
         TextView medicineTimesView;
         TextView medicineOneDoseView;
+        TextView medicineStayTime;
+        TextView medicineRepeatTime;
 
         MedicineViewHolder(@NonNull View v, RecyclerViewClickListener listener) {
             super(v);
@@ -72,7 +76,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             medicineQuantityView = itemView.findViewById(R.id.medicineQuantity);
             medicineTimesView = itemView.findViewById(R.id.medicineTimes);
             medicineOneDoseView = itemView.findViewById(R.id.medicineOneDose);
-
+            medicineStayTime = itemView.findViewById(R.id.medicineStayTime);
+            medicineRepeatTime = itemView.findViewById(R.id.medicineRepeatTime);
         }
 
         @Override

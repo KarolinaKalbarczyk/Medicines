@@ -1,9 +1,14 @@
 package com.example.medicines;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -69,8 +74,8 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
             intent.putExtra(MEDICINE_DATA, adapter.getMedicineByPosition(position));
             startActivityForResult(intent, EDIT_MEDICINE);
-
         };
+
         // zaladuj ArrayList do adaptera i wywolaj loadData
         adapter = new MedicineAdapter(new ArrayList<>(), listener);
         loadData();
@@ -79,6 +84,7 @@ public class MainActivity extends BaseActivity
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
+
 
 
     //jesli requestCode taki jak podany, i resultCode równy 666 to wywolaj loadData

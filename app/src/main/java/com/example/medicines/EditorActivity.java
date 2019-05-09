@@ -119,6 +119,7 @@ public class EditorActivity extends BaseActivity {
     }
 
     public void setReminder() {
+
         String repeatTime;
         String stayTime;
         String drop_item2;
