@@ -1,8 +1,11 @@
 package com.example.medicines;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
 
-public class Reminder {
+import java.io.Serializable;
+
+public class Reminder implements Serializable {
     @ColumnInfo(name = "repeateTime")
     public Integer mRepeatTime;
 
@@ -18,4 +21,11 @@ public class Reminder {
     @ColumnInfo(name = "interval")
     public Integer mInterval;
 
+    public Reminder(Integer mRepeatTime, Integer mStayTime, Integer mFirstAlarmTimeInMilis, Integer mEndAlarmTimeInMilis, Integer mInterval) {
+        this.mRepeatTime = mRepeatTime;
+        this.mStayTime = mStayTime;
+        this.mFirstAlarmTimeInMilis = mFirstAlarmTimeInMilis;
+        this.mEndAlarmTimeInMilis = mEndAlarmTimeInMilis;
+        this.mInterval = mInterval;
+    }
 }
