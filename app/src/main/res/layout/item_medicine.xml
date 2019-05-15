@@ -37,7 +37,7 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text='@={`` + medicineViewModel.name}'
+            android:text='@={medicineViewModel.name}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,9 +46,9 @@
         <TextView
             android:id="@+id/timesByDayView"
             android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/medicineName"
-            android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
             android:padding="10dp"
@@ -61,7 +61,7 @@
         <TextView
             android:id="@+id/medicineTimes"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/medicineName"
             android:layout_marginStart="8dp"
             android:layout_marginTop="1dp"
@@ -76,11 +76,11 @@
         <TextView
             android:id="@+id/oneDoseQuestionView"
             android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/medicineName"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:layout_toRightOf="@id/medicineTimes"
+            app:layout_constraintHorizontal_chainStyle="packed"
             android:padding="10dp"
             android:text="@string/one_dose"
             app:layout_constraintEnd_toStartOf="@+id/medicineOneDose"
@@ -90,7 +90,7 @@
         <TextView
             android:id="@+id/medicineOneDose"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/medicineName"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
@@ -104,84 +104,81 @@
 
         <TextView
             android:id="@+id/quantityQuestionView"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/timesByDayView"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:padding="10dp"
             android:text="@string/stack"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@+id/medicineQuantity"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName" />
+            app:layout_constraintTop_toBottomOf="@+id/timesByDayView" />
 
 
         <TextView
             android:id="@+id/medicineQuantity"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/timesByDayView"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="100dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/quantityQuestionView"
             android:padding="10dp"
             android:text='@={`` + medicineViewModel.quantity}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/quantityQuestionView"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName"
+            app:layout_constraintTop_toBottomOf="@+id/oneDoseQuestionView"
             tools:text="20" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/time_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:text="What time?"
             app:layout_constraintEnd_toStartOf="@+id/medicineRepeatTime"
-            app:layout_constraintHorizontal_bias="0.626"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName" />
+            app:layout_constraintTop_toBottomOf="@+id/quantityQuestionView" />
 
         <TextView
             android:id="@+id/medicineRepeatTime"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="140dp"
-            android:layout_marginEnd="120dp"
+            app:layout_constraintHorizontal_bias="0"
             android:text='@={`` + medicineViewModel.repeatTime}'
             tools:text="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName" />
+            app:layout_constraintStart_toEndOf="@+id/time_label"
+            app:layout_constraintTop_toTopOf="@+id/time_label" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="167dp"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="10dp"
             android:text="For:"
+            app:layout_constraintEnd_toStartOf="@id/medicineStayTime"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName" />
+            app:layout_constraintTop_toBottomOf="@+id/time_label" />
 
         <TextView
             android:id="@+id/medicineStayTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="168dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:text='@={`` + medicineViewModel.stayTime}'
             tools:text="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.275"
             app:layout_constraintStart_toEndOf="@+id/textView1"
-            app:layout_constraintTop_toBottomOf="@+id/medicineName" />
+            app:layout_constraintTop_toBottomOf="@+id/time_label" />
 
     </android.support.constraint.ConstraintLayout>
 

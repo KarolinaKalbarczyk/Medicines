@@ -26,7 +26,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".NotificationPublisher" />
+        <receiver android:name="com.example.medicines.NotificationPublisher" >
+            <intent-filter>
+                <action android:name="com.example.medicine.medicine_alarm_action"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
