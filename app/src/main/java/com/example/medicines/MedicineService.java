@@ -2,34 +2,15 @@ package com.example.medicines;
 
 import java.util.List;
 
-public class MedicineService {
+public interface MedicineService {
 
-    private AppDatabase           medicineDb;
+    void saveMedicine(Medicine medicine);
 
-    public MedicineService(AppDatabase db){
-        medicineDb = db;
-    }
-
-    public void saveMedicine(Medicine medicine){
-        medicineDb.medicineDAO().insertAll(medicine);
-    }
-
-//    public void updateMedicine(Medicine medicine){
-//        medicineDb.medicineDAO().updateMedicine(medicine);
-//    }
-
-    public List<Medicine> getAllMedicine(){
-        return medicineDb.medicineDAO().getAll();
-    }
+    List<Medicine> getAllMedicine();
 
     //ma byc tak smao jak w DAO, update musi miec jakis argument!
-    public void updateMedicine(Medicine medicine) {
-        medicineDb.medicineDAO().update(medicine);
-    }
+    void updateMedicine(Medicine medicine);
 
     //aby móc usunąć rekord
-    public void deleteMedicine(Medicine medicine){
-        medicineDb.medicineDAO().delete(medicine);
-    }
+    void deleteMedicine(Medicine medicine);
 }
-

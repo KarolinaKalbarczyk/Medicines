@@ -10,7 +10,7 @@ public class MedicineApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        medicineService = new MedicineService(AppDatabase.getDatabase(this));
+        medicineService = new MedicineLocalService(AppDatabase.getDatabase(this));
     }
 
     public MedicineService getMedicineService(){

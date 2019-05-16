@@ -28,6 +28,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED") || intent.getAction().equals("com.example.medicine.new_alarm")) {
+            int medicineId = intent.getIntExtra("id", 0);
+
 
             alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             //intent = new Intent(context, AlarmReceiver.class);
@@ -37,7 +39,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             //TODO jak bym chciała EditorActivity to zmieniam klasę, a jak dodać konkretne id?
             //alarmIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);
             Intent medIntent = new Intent("com.example.medicine.medicine_alarm_action");
-            medIntent.putExtra("medicineId", 5);
+            medIntent.putExtra("medicineId", medicineId);
+            medIntent.addCategory(String.valueOf(medicineId));
             /* read more about this https://commonsware.com/Android/previews/appendix-b-android-80 */
             medIntent.setComponent(new ComponentName(context, NotificationPublisher.class));
             alarmIntent = PendingIntent.getBroadcast(context, 0, medIntent, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -20,7 +20,7 @@ import static android.content.Intent.ACTION_DELETE;
 import static android.content.Intent.getIntentOld;
 import static com.example.medicines.EditorActivity.MEDICINE_DATA;
 
-public abstract class NotificationPublisher extends BroadcastReceiver {
+public class NotificationPublisher extends BroadcastReceiver {
 
     private String CHANNEL_ID = "my_channel_id";
 
@@ -46,17 +46,17 @@ public abstract class NotificationPublisher extends BroadcastReceiver {
                 .setContentTitle("title")
                 .setContentText("content")
                 .setContentIntent(alarmIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
 //                .addAction(R.drawable.ic_menu_camera, "Delete" ,deletePendingIntent);
-                //.setAutoCancel(true);
+                .setAutoCancel(true);
 
         Notification notification = builder.build();
 
 
-        int id = intent.getIntExtra("id", 0);
+        //int id = intent.getIntExtra("id", 0);
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(id, notification);
+        notificationManager.notify(medicineId, notification);
     }
 
     private void createNotificationChannel(Context context) {

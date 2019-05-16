@@ -194,7 +194,9 @@ public class EditorActivity extends BaseActivity {
                 .putLong("interval", interval)
                 .apply();
 
-        sendBroadcast(new Intent("com.example.medicine.new_alarm"));
+        Intent alarmIntent = new Intent("com.example.medicine.new_alarm");
+        alarmIntent.putExtra("id", medicineViewModel.id);
+        sendBroadcast(alarmIntent);
 
     }
 

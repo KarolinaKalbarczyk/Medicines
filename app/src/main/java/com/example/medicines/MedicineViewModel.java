@@ -1,7 +1,5 @@
 package com.example.medicines;
 
-import android.databinding.ObservableInt;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 
 public class MedicineViewModel {
