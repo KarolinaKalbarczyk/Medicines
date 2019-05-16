@@ -1,9 +1,9 @@
 package com.example.medicines;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Ignore;
-
 import java.io.Serializable;
+
+
 
 public class Reminder implements Serializable {
     @ColumnInfo(name = "repeateTime")

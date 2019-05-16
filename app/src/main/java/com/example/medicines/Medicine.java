@@ -54,11 +54,11 @@ public class Medicine implements Serializable {
         this.mOneDose = oneDose;
         this.mImage = image;
         this.reminder = new Reminder(repeatTime, stayTime, firstAlarmTimeInMilis, endAlarmTimeInMilis, interval);
-        /*this.reminder.mRepeatTime = repeatTime;
-        this.reminder.mStayTime = stayTime;
-        this.reminder.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
-        this.reminder.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
-        this.reminder.mInterval = interval;*/
+//        this.reminder.mRepeatTime = repeatTime;
+//        this.reminder.mStayTime = stayTime;
+//        this.reminder.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
+//        this.reminder.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
+//        this.reminder.mInterval = interval;
     }
 
     @Ignore
@@ -71,11 +71,11 @@ public class Medicine implements Serializable {
         this.mOneDose = oneDose;
         this.mImage = image;
         this.reminder = new Reminder(repeatTime, stayTime, firstAlarmTimeInMilis, endAlarmTimeInMilis, interval);
-        /*this.reminder.mRepeatTime = repeatTime;
-        this.reminder.mStayTime = stayTime;
-        this.reminder.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
-        this.reminder.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
-        this.reminder.mInterval = interval;*/
+//        this.reminder.mRepeatTime = repeatTime;
+//        this.reminder.mStayTime = stayTime;
+//        this.reminder.mFirstAlarmTimeInMilis = firstAlarmTimeInMilis;
+//        this.reminder.mEndAlarmTimeInMilis = endAlarmTimeInMilis;
+//        this.reminder.mInterval = interval;
     }
 
     @Ignore

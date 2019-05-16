@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -80,6 +81,14 @@ public class EditorActivity extends BaseActivity {
         setupSpinners();
     }
 
+    private final int REQUEST_CODE = 1;
+
+    public void Id(View view){
+        Intent intent = new Intent(this, NotificationPublisher.class);
+        intent.putExtra("id", medicineViewModel.id);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
     //musimu zarejestrowac i odrejestrowac receiver!
     @Override
     protected void onStart() {
@@ -102,7 +111,6 @@ public class EditorActivity extends BaseActivity {
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         dropdown.setAdapter(staticAdapter);
-        //todo dokonczyc setup spinnerow
 
         Spinner dropdown2 = binding.spinner2;
         ArrayAdapter<CharSequence> staticAdapter2 = ArrayAdapter
@@ -206,7 +214,8 @@ public class EditorActivity extends BaseActivity {
             Toast.makeText(this, "Error ocurred", Toast.LENGTH_LONG).show();
     }
 
-    // menu
+
+        // menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (medicineViewModel.id != 0)
